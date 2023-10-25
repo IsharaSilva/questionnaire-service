@@ -26,7 +26,9 @@ phases:
       - echo Tagging and Pushing the Docker image to ECR
       - docker tag questionnaire-service:${COMMIT_HASH} 411194283529.dkr.ecr.us-east-1.amazonaws.com/questionnaire-service:${COMMIT_HASH}
       - docker push 411194283529.dkr.ecr.us-east-1.amazonaws.com/questionnaire-service:${COMMIT_HASH}
-
+artifacts:
+  files:
+    - '**/*'
 cache:
   paths:
     - '/root/.m2/**/*'
