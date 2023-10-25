@@ -1,0 +1,26 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /home/ubuntu
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ubuntu
+    group: ubuntu
+
+hooks:
+  ApplicationStop:
+    - location: scripts/questionnaire-service/server_stop.sh
+      timeout: 60
+      runas: ubuntu
+  ApplicationStart:
+    - location: scripts/questionnaire-service/server_start.sh
+      timeout: 60
+      runas: ubuntu
+  ValidateService:
+    - location: scripts/questionnaire-service/server_validate.sh
+      timeout: 60
+      runas: ubuntu
