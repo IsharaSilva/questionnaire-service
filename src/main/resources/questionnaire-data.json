@@ -1,0 +1,388 @@
+{
+    "title": "Supplier Onboarding",
+    "pages": [
+        {
+
+            "index": 0,
+
+            "title": "Supplier Details",
+
+            "questions": [
+
+                {
+
+                    "index": 0,
+
+                    "label": "Supplier Name",
+
+                    "type": "SINGLE_ANSWER",
+
+                    "group": "",
+
+                    "optionsSource": {},
+
+                    "validations": [
+
+                        {
+
+                            "required": true
+
+                        }
+
+                    ],
+
+                    "editable": true,
+                    
+                    "subQuestions": []
+
+                },
+
+                {
+
+                    "index": 1,
+
+                    "label": "Legal Name",
+
+                    "type": "SINGLE_ANSWER",
+
+                    "group": "",
+
+                    "optionsSource": {},
+
+                    "validations": [
+
+                        {
+
+                            "required": false
+
+                        }
+
+                    ],
+
+                    "editable": true,
+                    
+                    "subQuestions": []
+
+                },
+
+                {
+
+                    "index": 2,
+
+                    "label": "Title",
+
+                    "type": "SINGLE_ANSWER",
+
+                    "group": "Contact Person",
+
+                    "optionsSource": {},
+
+                    "validations": [
+
+                        {
+
+                            "required": true
+
+                        }
+
+                    ],
+
+                    "editable": true,
+                    
+                    "subQuestions": []
+
+                },
+
+                {
+
+                    "index": 3,
+
+                    "label": "First Name",
+
+                    "type": "SINGLE_ANSWER",
+
+                    "group": "Contact Person",
+
+                    "optionsSource": {},
+
+                    "validations": [
+
+                        {
+
+                            "required": true
+
+                        }
+
+                    ],
+
+                    "editable": true,
+                    
+                    "subQuestions": []
+
+                },
+
+                {
+
+                    "index": 4,
+
+                    "label": "Last Name",
+
+                    "type": "SINGLE_ANSWER",
+
+                    "group": "Contact Person",
+
+                    "optionsSource": {},
+
+                    "validations": [
+
+                        {
+
+                            "required": true
+
+                        }
+
+                    ],
+
+                    "editable": true,
+                    
+                    "subQuestions": []
+
+                },
+
+                {
+
+                    "index": 5,
+
+                    "label": "Email",
+
+                    "type": "SINGLE_ANSWER",
+
+                    "group": "Contact Person",
+
+                    "optionsSource": {},
+
+                    "validations": [
+
+                        {
+
+                            "required": true
+
+                        }
+
+                    ],
+
+                    "editable": true,
+                    
+                    "subQuestions": []
+                    
+                }
+
+            ]
+
+        },
+
+        {
+
+            "index": 1,
+
+            "title": "Supporting Evidence",
+
+            "questions": [
+
+                {
+
+                    "index": 0,
+
+                    "label": "Remarks",
+
+                    "type": "SINGLE_ANSWER",
+
+                    "group": "",
+
+                    "optionsSource": {},
+
+                    "validations": [
+
+                        {
+
+                            "required": false
+
+                        }
+
+                    ],
+
+                    "editable": true,
+                    
+                    "subQuestions": []
+
+                },
+
+                {
+
+                    "index": 1,
+
+                    "label": "Supplier URL",
+
+                    "type": "SINGLE_ANSWER",
+
+                    "group": "",
+
+                    "optionsSource": {},
+
+                    "validations": [
+
+                        {
+
+                            "required": false
+
+                        }
+
+                    ],
+
+                    "editable": true,
+                    
+                    "subQuestions": []
+
+                },
+
+                {
+
+                    "index": 2,
+
+                    "label": "Supporting Documents",
+
+                    "type": "FILE_UPLOAD",
+
+                    "group": "",
+
+                    "optionsSource": {},
+
+                    "validations": [
+
+                        {
+
+                            "required": false
+
+                        }
+
+                    ],
+
+                    "editable": true,
+                    "subQuestions": []
+
+                }
+
+            ]
+
+        },
+
+        {
+
+            "index": 2,
+
+            "title": "Supplier Classification",
+
+            "questions": [
+
+                {
+
+                    "index": 0,
+
+                    "label": "Supplier Type",
+
+                    "type": "MULTI_SELECTION",
+
+                    "group": "",
+
+                    "optionsSource": {},
+
+
+                    "validations": [
+
+                        {
+
+                            "required": false
+
+                        }
+
+                    ],
+
+                    "editable": true,
+                    "subQuestions": []
+
+                },
+
+                {
+
+                    "index": 1,
+
+                    "label": "Supplier Category",
+
+                    "type": "SINGLE_SELECTION",
+
+                    "group": "",
+
+                    "optionsSource": {},
+
+                    "validations": [
+
+                        {
+
+                            "required": false
+
+                        }
+
+                    ],
+
+                    "editable": true,
+                    
+                    "subQuestions": []
+
+                }
+
+            ]
+
+        },
+
+        {
+
+            "index": 3,
+
+            "title": "Supplier Involvement",
+
+            "questions": [
+
+                {
+
+                    "index": 0,
+
+                    "label": "Questionnaire to be filled by",
+
+                    "type": "SINGLE_SELECTION",
+
+                    "group": "",
+
+                    "optionsSource": {},
+
+                    "validations": [
+
+                        {
+
+                            "required": true
+
+                        }
+
+                    ],
+
+                    "editable": true,
+                    "subQuestions": []
+
+                }
+
+            ]
+
+        }
+
+    ]
+
+}
