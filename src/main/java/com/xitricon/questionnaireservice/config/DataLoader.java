@@ -26,14 +26,13 @@ public class DataLoader {
 			};
 
 			InputStream inputStream = TypeReference.class.getResourceAsStream("/questionnaire-data.json");
-			
+
 			try {
 				Questionnaire questionnaireToSave = mapper.readValue(inputStream, typeReference);
 
-				
 				List<Questionnaire> existingQuestionnaire = questionnaireRepository.findAll();
-				
-				if(!existingQuestionnaire.isEmpty()) {
+
+				if (!existingQuestionnaire.isEmpty()) {
 					log.info("Questionnaire data exists");
 					return;
 				}

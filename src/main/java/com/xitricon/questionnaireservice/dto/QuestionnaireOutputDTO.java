@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.xitricon.onboardingservice.util.CommonConstant;
 import com.xitricon.questionnaireservice.util.CommonConstants;
 
 import lombok.Getter;
@@ -19,7 +18,7 @@ public class QuestionnaireOutputDTO {
 	@JsonFormat(pattern = CommonConstants.DATE_TIME_FORMAT)
 	private final LocalDateTime createdAt;
 
-	@JsonFormat(pattern = CommonConstant.DATE_TIME_FORMAT)
+	@JsonFormat(pattern = CommonConstants.DATE_TIME_FORMAT)
 	private final LocalDateTime modifiedAt;
 
 	private final String createdBy;
