@@ -1,9 +1,9 @@
-package com.xitricon.questionnaireservice.util;
+package com.xitricon.questionnaireservice.testutils;
 
-public class CommonConstants {
+public class TestConstants {
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 	
-	private CommonConstants() {
+	private TestConstants() {
 		throw new IllegalStateException("Utility class");
 	}
 }
