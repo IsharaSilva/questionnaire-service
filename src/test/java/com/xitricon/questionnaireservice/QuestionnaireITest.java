@@ -282,7 +282,29 @@ public class QuestionnaireITest {
 				.body("pages[3].questions[0].editable",
 						equalTo(savedQuestionnaire.getPages().get(3).getQuestions().get(0).isEditable()))
 				.body("pages[3].questions[0].optionsSource", notNullValue())
-				.body("pages[3].questions[0].subQuestions", notNullValue());
+				.body("pages[3].questions[0].subQuestions", notNullValue())
+
+				.body("pages[4].id", equalTo(savedQuestionnaire.getPages().get(4).getId().toString()))
+				.body("pages[4].index", equalTo(savedQuestionnaire.getPages().get(4).getIndex()))
+				.body("pages[4].title", equalTo(savedQuestionnaire.getPages().get(4).getTitle()))
+				.body("pages[4].questions.size()", equalTo(savedQuestionnaire.getPages().get(4).getQuestions().size()))
+				.body("pages[4].questions[0].id",
+						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getId().toString()))
+				.body("pages[4].questions[0].index",
+						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getIndex()))
+				.body("pages[4].questions[0].label",
+						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getLabel()))
+				.body("pages[4].questions[0].type",
+						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getType()))
+				.body("pages[4].questions[0].group",
+						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getGroup()))
+				.body("pages[4].questions[0].validations[0].required",
+						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getValidations().get(0)
+								.isRequired()))
+				.body("pages[4].questions[0].editable",
+						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).isEditable()))
+				.body("pages[4].questions[0].optionsSource", notNullValue())
+				.body("pages[4].questions[0].subQuestions", notNullValue());
 
 	}
 

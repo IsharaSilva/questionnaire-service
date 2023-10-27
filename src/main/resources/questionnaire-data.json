@@ -381,7 +381,38 @@
 
             ]
 
-        }
+        },
+        
+        {
+        "index": 4,
+        
+        "title": "Reviewer Comments",
+        
+        "questions": [
+          {
+			  
+            "index": 0,
+            
+            "label": "Comments",
+            
+            "type": "SINGLE_ANSWER",
+            
+            "group": "",
+            
+            "optionsSource": {},
+            
+            "validations": [
+              {
+                "required": true
+              }
+            ],
+            
+            "editable": true,
+            "subQuestions": []
+           
+          }
+        ]
+      }
 
     ]
 
