@@ -1,19 +1,20 @@
 package com.xitricon.questionnaireservice.dto.v2;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 
 @Getter
 public class QuestionnaireQuestionOutputDTO extends QuestionnaireQuestionInputDTO {
-    private final String id;
-   
-    public QuestionnaireQuestionOutputDTO(final String id, final String title, final String questionRef, final String dependsOn, final String determinator, final List<QuestionnaireQuestionOutputDTO> questions){
-        super(id, title, questionRef, dependsOn, determinator, questions); 
-        this.id = id;
+	private final String id;
 
-    }
-
-  
+	@JsonCreator
+	public QuestionnaireQuestionOutputDTO(@JsonProperty("id") final String id,
+			@JsonProperty("questionRef") final String questionRef, @JsonProperty("dependsOn") final String dependsOn,
+			@JsonProperty("determinator") final String determinator) {
+		super(questionRef, dependsOn, determinator);
+		this.id = id;
+	}
 
 }

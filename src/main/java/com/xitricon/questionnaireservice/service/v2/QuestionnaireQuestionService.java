@@ -1,12 +1,17 @@
 package com.xitricon.questionnaireservice.service.v2;
 
-import com.xitricon.questionnaireservice.dto.v2.QuestionnaireQuestionInputDTO;
-import com.xitricon.questionnaireservice.dto.v2.QuestionnaireQuestionOutputDTO;
+import com.xitricon.questionnaireservice.dto.v2.QuestionnaireInputDTO;
+import com.xitricon.questionnaireservice.dto.v2.QuestionnaireOutputDTO;
+import com.xitricon.questionnaireservice.dto.v2.QuestionnaireQuestionUpdateInputDTO;
+import com.xitricon.questionnaireservice.dto.v2.QuestionnaireUpdateInputDTO;
 
 public interface QuestionnaireQuestionService {
-	QuestionnaireQuestionOutputDTO getQuestionaireQuestionById(String id);
-	QuestionnaireQuestionOutputDTO createQuestionnaire();
-	QuestionnaireQuestionOutputDTO updateQuestionnaire(QuestionnaireQuestionInputDTO questionInputDTO);
-	QuestionnaireQuestionOutputDTO addQuestion(String id);
-	QuestionnaireQuestionOutputDTO removeQuestion(String id);
+	QuestionnaireOutputDTO getQuestionaireById(String id);
+
+	QuestionnaireOutputDTO createQuestionnaire(QuestionnaireInputDTO questionnaireInput);
+
+	QuestionnaireOutputDTO updateQuestionnaire(String id, QuestionnaireUpdateInputDTO questionnaireUpdateInput);
+
+	QuestionnaireOutputDTO updateQuestions(String id,
+			QuestionnaireQuestionUpdateInputDTO questionnaireQuestionUpdateInput);
 }

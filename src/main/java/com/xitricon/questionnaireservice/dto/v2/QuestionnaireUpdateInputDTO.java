@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class QuestionnaireQuestionValidationOutputDTO {
-	private final boolean required;
+public class QuestionnaireUpdateInputDTO {
+	private final String title;
 }
-//
