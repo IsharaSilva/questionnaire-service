@@ -1,7 +1,7 @@
 package com.xitricon.questionnaireservice.model;
 
 import com.xitricon.questionnaireservice.dto.OptionsSourceOutputDTO;
-import com.xitricon.questionnaireservice.util.SourceType;
+import com.xitricon.questionnaireservice.model.enums.SourceType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;

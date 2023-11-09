@@ -1,6 +1,6 @@
 package com.xitricon.questionnaireservice.dto;
 
-import com.xitricon.questionnaireservice.util.QuestionType;
+import com.xitricon.questionnaireservice.model.enums.QuestionType;
 import lombok.Getter;
 
 import java.util.List;

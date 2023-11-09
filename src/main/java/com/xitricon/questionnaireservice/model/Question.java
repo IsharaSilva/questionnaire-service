@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.xitricon.questionnaireservice.util.QuestionType;
+import com.xitricon.questionnaireservice.model.enums.QuestionType;
 import org.bson.types.ObjectId;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

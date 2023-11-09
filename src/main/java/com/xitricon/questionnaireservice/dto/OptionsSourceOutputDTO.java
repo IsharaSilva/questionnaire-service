@@ -1,6 +1,6 @@
 package com.xitricon.questionnaireservice.dto;
 
-import com.xitricon.questionnaireservice.util.SourceType;
+import com.xitricon.questionnaireservice.model.enums.SourceType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

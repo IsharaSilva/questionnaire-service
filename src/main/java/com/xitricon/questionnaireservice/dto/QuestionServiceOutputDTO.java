@@ -2,7 +2,7 @@ package com.xitricon.questionnaireservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xitricon.questionnaireservice.util.QuestionType;
+import com.xitricon.questionnaireservice.model.enums.QuestionType;
 import lombok.Getter;
 
 import java.util.List;
