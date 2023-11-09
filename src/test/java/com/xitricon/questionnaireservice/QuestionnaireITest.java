@@ -4,7 +4,13 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.xitricon.questionnaireservice.dto.QuestionServiceOutputDTO;
+import com.xitricon.questionnaireservice.model.Question;
+import com.xitricon.questionnaireservice.model.QuestionnairePage;
+import com.xitricon.questionnaireservice.model.enums.QuestionType;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +31,7 @@ import io.restassured.http.ContentType;
 @AutoConfigureDataMongo
 public class QuestionnaireITest {
 	private static final String QUESTIONNAIRE_RESOURCE = "/api/questionnaires/{id}";
+	private static final String ADD_QUESTION_RESOURCE = "/api/questionnaires";
 
 	@Autowired
 	QuestionnaireRepository questionnaireRepository;
@@ -292,6 +299,35 @@ public class QuestionnaireITest {
 						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).isEditable()))
 				.body("pages[4].questions[0].optionsSource", notNullValue())
 				.body("pages[4].questions[0].subQuestions", notNullValue());
+
+	}
+
+	@Test
+	public void testAddQuestionToQuestionnaire() {
+		Question question = Question.builder().label("Label 01").type(QuestionType.SINGLE_ANSWER).group("").optionsSource(null)
+				.validations(null).editable(false).build();
+
+		QuestionnairePage questionnairePage = QuestionnairePage.builder().title("Page Title 01").questions(List.of(question))
+				.build();
+
+		Questionnaire savedQuestionnaire = this.questionnaireRepository
+				.save(Questionnaire.builder().title("Title 01").pages(List.of(questionnairePage)).build());
+
+		// TODO: Verify how to mock external services
+		String questionId = "654c0048d7db1379df7e7f1e";
+		String title = "Single Answer type Question";
+		QuestionType questionType = QuestionType.SINGLE_ANSWER;
+
+		QuestionServiceOutputDTO questionServiceOutputDTO = new QuestionServiceOutputDTO(questionId, title, questionType, new ArrayList<>());
+
+		RestAssured.given().contentType(ContentType.JSON)
+				.queryParam("questionnaireId", savedQuestionnaire.getId())
+				.queryParam("questionId", questionId)
+				.queryParam("pageId", savedQuestionnaire.getPages().get(0).getId().toString())
+				.post(ADD_QUESTION_RESOURCE).then().statusCode(HttpStatus.SC_OK)
+				.body("pages[0].questions[1].id", equalTo(questionServiceOutputDTO.getId()))
+				.body("pages[0].questions[1].label", equalTo(questionServiceOutputDTO.getTitle()))
+				.body("pages[0].questions[1].type", equalTo(questionServiceOutputDTO.getType().toString()));
 
 	}
 

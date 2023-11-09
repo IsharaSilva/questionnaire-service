@@ -3,7 +3,9 @@ package com.xitricon.questionnaireservice.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
+import com.xitricon.questionnaireservice.dto.OptionsSourceOutputDTO;
 import com.xitricon.questionnaireservice.model.enums.QuestionType;
 import org.bson.types.ObjectId;
 
@@ -45,7 +47,8 @@ public class Question {
 
 		return new QuestionOutputDTO(
 				this.id.toString(), this.index, this.label, this.type, this.group, this.validations, this.editable,
-				this.optionsSource.viewAsDTO(), subQuestionDTOs
+				Objects.nonNull(this.optionsSource) ? this.optionsSource.viewAsDTO() : new OptionsSourceOutputDTO(null, null),
+				subQuestionDTOs
 		);
 	}
 }
