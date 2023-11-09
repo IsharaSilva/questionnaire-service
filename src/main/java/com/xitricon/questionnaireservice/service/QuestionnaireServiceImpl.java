@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -63,7 +64,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 		List<Question> questions = page.getQuestions();
 		int questionIdxToBeSaved = !questions.isEmpty() ? questions.get(questions.size() - 1).getIndex() + 1 : 0;
 
-		QuestionOutputDTO questionOutput = createQuestionOutput(questionServiceOutputDTO, questionIdxToBeSaved);
+		QuestionOutputDTO questionOutput = createQuestionOutput(Objects.requireNonNull(questionServiceOutputDTO), questionIdxToBeSaved);
 
 		Question questionEntity = convertToQuestion(questionOutput);
 		questions.add(questionEntity);
