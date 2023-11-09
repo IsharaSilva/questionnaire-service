@@ -1,11 +1,10 @@
 package com.xitricon.questionnaireservice.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.Map;
 
+import com.xitricon.questionnaireservice.util.QuestionType;
 import org.bson.types.ObjectId;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,11 +25,11 @@ public class Question {
 
 	private int index;
 	private String label;
-	private String type;
+	private QuestionType type;
 	private String group;
-	private List<QuestionValidation> validations;
+	private List<Map<String,String>> validations;
 	private boolean editable;
-	private Object optionsSource;
+	private OptionsSource optionsSource;
 	private List<Question> subQuestions;
 
 	@JsonIgnore
@@ -44,12 +43,9 @@ public class Question {
 			}
 		}
 
-		return new QuestionOutputDTO(this.id.toString(), this.index, this.label, this.type, this.group,
-
-				(Objects.nonNull(this.validations)
-						? this.validations.stream().map(QuestionValidation::viewAsDTO).collect(Collectors.toList())
-						: Collections.emptyList()),
-
-				this.editable, this.optionsSource, subQuestionDTOs);
+		return new QuestionOutputDTO(
+				this.id.toString(), this.index, this.label, this.type, this.group, this.validations, this.editable,
+				this.optionsSource.viewAsDTO(), subQuestionDTOs
+		);
 	}
 }
