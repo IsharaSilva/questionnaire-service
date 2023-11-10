@@ -3,14 +3,14 @@ package com.xitricon.questionnaireservice.dto.v2;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xitricon.questionnaireservice.util.CommonConstants;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public class QuestionnaireOutputDTO {
 	private final String id;
 	private final String title;
@@ -24,4 +24,18 @@ public class QuestionnaireOutputDTO {
 	private final String createdBy;
 	private final String modifiedBy;
 	private final List<QuestionnaireQuestionOutputDTO> questions;
+
+	@JsonCreator
+	public QuestionnaireOutputDTO(@JsonProperty("id") final String id,
+			@JsonProperty("title") final String title, @JsonProperty("createdAt") final LocalDateTime createdAt,
+			@JsonProperty("modifiedAt") final LocalDateTime modifiedAt, @JsonProperty("createdBy") final String createdBy,
+			@JsonProperty("modifiedBy") final String modifiedBy, @JsonProperty("questions") final List<QuestionnaireQuestionOutputDTO> questions) {
+		this.id = id;
+		this.title = title;
+		this.createdAt = createdAt;
+		this.modifiedAt = modifiedAt;
+		this.createdBy = createdBy;
+		this.modifiedBy = modifiedBy;
+		this.questions = questions;
+	}
 }
