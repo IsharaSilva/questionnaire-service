@@ -18,6 +18,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 import com.xitricon.questionnaireservice.dto.v2.QuestionnaireInputDTO;
 import com.xitricon.questionnaireservice.dto.v2.QuestionnaireQuestionInputDTO;
+import com.xitricon.questionnaireservice.dto.v2.QuestionnaireQuestionUpdateInputDTO;
 import com.xitricon.questionnaireservice.repository.v2.QuestionnaireV2Repository;
 
 import io.restassured.RestAssured;
@@ -49,7 +50,7 @@ public class QuestionnaireQuestionControllerTest {
 	}
 
 	@Test
-	void testCreateQuestionnaire() {
+	public void testCreateQuestionnaire() {
 		List<QuestionnaireQuestionInputDTO> questionList = Arrays.asList(
 				new QuestionnaireQuestionInputDTO("question1", "dependsOn1", "determinator1"),
 				new QuestionnaireQuestionInputDTO("question2", "dependsOn2", "determinator2"));
@@ -62,7 +63,7 @@ public class QuestionnaireQuestionControllerTest {
 	}
 
 	@Test
-	void testGetQuestionnaireById() {
+	public void testGetQuestionnaireById() {
 		List<QuestionnaireQuestionInputDTO> questionList = Arrays.asList(
 				new QuestionnaireQuestionInputDTO("question1", "dependsOn1", "determinator1"),
 				new QuestionnaireQuestionInputDTO("question2", "dependsOn2", "determinator2"));
@@ -74,12 +75,15 @@ public class QuestionnaireQuestionControllerTest {
 
 		String id = JsonPath.from(respString).get("id");
 
-		RestAssured.given().contentType(ContentType.JSON).pathParam("id", id).get(QuestionnaireQuestion_ID_PATH).then()
-				.statusCode(HttpStatus.SC_OK).body("title", equalTo(inputDTO.getTitle()));
+		RestAssured.given().contentType(ContentType.JSON).pathParam("id", id).body(inputDTO)
+				.put(QuestionnaireQuestion_ID_PATH).then().statusCode(HttpStatus.SC_OK)
+				.body("title", equalTo(inputDTO.getTitle()))
+                .body("createdAt", notNullValue()).body("modifiedAt", notNullValue()).body("createdBy", notNullValue()).body("modifiedBy", notNullValue());
+
 	}
 
 	@Test
-	void testUpdateQuestionnaire() {
+	public void testUpdateQuestionnaire() {
 		List<QuestionnaireQuestionInputDTO> questionList = Arrays.asList(
 				new QuestionnaireQuestionInputDTO("question1", "dependsOn1", "determinator1"),
 				new QuestionnaireQuestionInputDTO("question2", "dependsOn2", "determinator2"));
@@ -99,17 +103,19 @@ public class QuestionnaireQuestionControllerTest {
 
 		RestAssured.given().contentType(ContentType.JSON).pathParam("id", id).body(inputDTO2)
 				.put(QuestionnaireQuestion_ID_PATH).then().statusCode(HttpStatus.SC_OK)
-				.body("title", equalTo(inputDTO2.getTitle()));
+				.body("title", equalTo(inputDTO2.getTitle()))
+                .body("createdAt", notNullValue()).body("modifiedAt", notNullValue()).body("createdBy", notNullValue()).body("modifiedBy", notNullValue());
+            
 	}
 
 	@Test
-	void testGetQuestionnaireByIdNotFound() {
+	public void testGetQuestionnaireByIdNotFound() {
 		given().contentType(ContentType.JSON).when().get(QuestionnaireQuestion_ID_PATH, "1").then()
 				.statusCode(HttpStatus.SC_NOT_FOUND);
 	}
 
 	@Test
-	void testUpdateQuestionnaireNotFound() {
+	public void testUpdateQuestionnaireNotFound() {
 		List<QuestionnaireQuestionInputDTO> questionList = Arrays.asList(
 				new QuestionnaireQuestionInputDTO("question1", "dependsOn1", "determinator1"),
 				new QuestionnaireQuestionInputDTO("question2", "dependsOn2", "determinator2"));
@@ -121,7 +127,7 @@ public class QuestionnaireQuestionControllerTest {
 	}
 
 	@Test
-	void testUpdateQuestionnaireQuestions() {
+	public void testUpdateQuestionnaireQuestions() {
 		List<QuestionnaireQuestionInputDTO> questionList = Arrays.asList(
 				new QuestionnaireQuestionInputDTO("question1", "dependsOn1", "determinator1"),
 				new QuestionnaireQuestionInputDTO("question2", "dependsOn2", "determinator2"));
@@ -133,35 +139,49 @@ public class QuestionnaireQuestionControllerTest {
 
 		String id = JsonPath.from(respString).get("id");
 
-		RestAssured.given().contentType(ContentType.JSON).pathParam("id", id)
-				.body("{\n" + "  \"additions\": [\n" + "    \"question3\",\n" + "    \"question4\"\n" + "  ],\n"
-						+ "  \"removals\": [\n" + "    \"question1\",\n" + "    \"question2\"\n" + "  ]\n" + "}")
-				.put(QuestionnaireQuestion_ID_PATH + "/questions").then().statusCode(HttpStatus.SC_OK)
-				.body("questions.size()", equalTo(2));
-	}
+        QuestionnaireQuestionUpdateInputDTO updateDTO = new QuestionnaireQuestionUpdateInputDTO(
+            Arrays.asList("question3", "question4"),
+            Arrays.asList("question1", "question2")
+        );
+    
+        RestAssured.given().contentType(ContentType.JSON).pathParam("id", id)
+                .body(updateDTO)  
+                .put(QuestionnaireQuestion_ID_PATH + "/questions")
+                .then().statusCode(HttpStatus.SC_OK)
+                .body("questions.size()", equalTo(4));
+    }
 
 	@Test
-	void testUpdateQuestionnaireQuestionsNotFound() {
+	public void testUpdateQuestionnaireQuestionsNotFound() {
+
+
+        QuestionnaireQuestionUpdateInputDTO updateDTO = new QuestionnaireQuestionUpdateInputDTO(
+            Arrays.asList("question3", "question4"),
+            Arrays.asList("question1", "question2")
+        );
 
 		given().contentType(ContentType.JSON)
-				.body("{\n" + "  \"additions\": [\n" + "    \"question3\",\n" + "    \"question4\"\n" + "  ],\n"
-						+ "  \"removals\": [\n" + "    \"question1\",\n" + "    \"question2\"\n" + "  ]\n" + "}")
+				.body(updateDTO)  
 				.when().put(QuestionnaireQuestion_ID_PATH + "/questions", "1").then()
 				.statusCode(HttpStatus.SC_NOT_FOUND);
 	}
 
 	@Test
-	void testUpdateQuestionnaireQuestionsBadRequest() {
+	public void testUpdateQuestionnaireQuestionsBadRequest() {
+
+        QuestionnaireQuestionUpdateInputDTO updateDTO = new QuestionnaireQuestionUpdateInputDTO(
+            Arrays.asList("question3", "question4"),
+            Arrays.asList("question1", "question2")
+        );
 
 		given().contentType(ContentType.JSON)
-				.body("{\n" + "  \"additions\": [\n" + "    \"question3\",\n" + "    \"question4\"\n" + "  ],\n"
-						+ "  \"removals\": [\n" + "    \"question1\",\n" + "    \"question2\"\n" + "  ]\n" + "}")
+				.body(updateDTO)  
 				.when().put(QuestionnaireQuestion_ID_PATH + "/questions", "1").then()
 				.statusCode(HttpStatus.SC_NOT_FOUND);
 	}
 
 	@Test
-	void testCreateQuestionnaireBadRequest() {
+	public void testCreateQuestionnaireBadRequest() {
 		List<QuestionnaireQuestionInputDTO> questionList = Arrays.asList(
 				new QuestionnaireQuestionInputDTO("question1", "dependsOn1", "determinator1"),
 				new QuestionnaireQuestionInputDTO("question2", "dependsOn2", "determinator2"));
@@ -174,7 +194,7 @@ public class QuestionnaireQuestionControllerTest {
 	}
 
 	@Test
-	void testUpdateQuestionnaireBadRequest() {
+	public void testUpdateQuestionnaireBadRequest() {
 		List<QuestionnaireQuestionInputDTO> questionList = Arrays.asList(
 				new QuestionnaireQuestionInputDTO("question1", "dependsOn1", "determinator1"),
 				new QuestionnaireQuestionInputDTO("question2", "dependsOn2", "determinator2"));
@@ -198,7 +218,7 @@ public class QuestionnaireQuestionControllerTest {
 	}
 
 	@Test
-	void testGetQuestionnaireByIdBadRequest() {
+	public void testGetQuestionnaireByIdBadRequest() {
 		given().contentType(ContentType.JSON).when().get(QuestionnaireQuestion_ID_PATH, "1").then()
 				.statusCode(HttpStatus.SC_NOT_FOUND);
 	}
