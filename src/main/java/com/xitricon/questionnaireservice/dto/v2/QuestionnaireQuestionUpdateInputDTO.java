@@ -14,7 +14,7 @@ public class QuestionnaireQuestionUpdateInputDTO {
 
 	@JsonCreator
 	public QuestionnaireQuestionUpdateInputDTO(@JsonProperty("removals") final List<String> removals,
-		@JsonProperty("additions") final List<String> additions) {
+			@JsonProperty("additions") final List<String> additions) {
 		this.removals = removals;
 		this.additions = additions;
 	}

@@ -16,7 +16,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 import com.xitricon.questionnaireservice.model.Questionnaire;
 import com.xitricon.questionnaireservice.repository.QuestionnaireRepository;
-import com.xitricon.questionnaireservice.testutils.TestConstants;
+import com.xitricon.questionnaireservice.utils.TestConstants;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;

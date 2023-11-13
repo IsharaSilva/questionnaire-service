@@ -14,10 +14,8 @@ public class QuestionnaireInputDTO {
 	private final List<QuestionnaireQuestionInputDTO> questions;
 
 	@JsonCreator
-	public QuestionnaireInputDTO(
-		@JsonProperty("title") final String title,
-		@JsonProperty("questions") final List<QuestionnaireQuestionInputDTO> questions) {
-	
+	public QuestionnaireInputDTO(@JsonProperty("title") final String title,
+			@JsonProperty("questions") final List<QuestionnaireQuestionInputDTO> questions) {
 		this.title = title;
 		this.questions = questions;
 	}

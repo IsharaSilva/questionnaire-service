@@ -13,10 +13,11 @@ public class QuestionnaireQuestionInputDTO {
 
 	@JsonCreator
 	public QuestionnaireQuestionInputDTO(@JsonProperty("questionRef") final String questionRef,
-			@JsonProperty("dependsOn") final String dependsOn, @JsonProperty("determinator") final String determinator) {
+			@JsonProperty("dependsOn") final String dependsOn,
+			@JsonProperty("determinator") final String determinator) {
 		this.questionRef = questionRef;
 		this.dependsOn = dependsOn;
 		this.determinator = determinator;
 	}
-	
+
 }

@@ -26,10 +26,11 @@ public class QuestionnaireOutputDTO {
 	private final List<QuestionnaireQuestionOutputDTO> questions;
 
 	@JsonCreator
-	public QuestionnaireOutputDTO(@JsonProperty("id") final String id,
-			@JsonProperty("title") final String title, @JsonProperty("createdAt") final LocalDateTime createdAt,
-			@JsonProperty("modifiedAt") final LocalDateTime modifiedAt, @JsonProperty("createdBy") final String createdBy,
-			@JsonProperty("modifiedBy") final String modifiedBy, @JsonProperty("questions") final List<QuestionnaireQuestionOutputDTO> questions) {
+	public QuestionnaireOutputDTO(@JsonProperty("id") final String id, @JsonProperty("title") final String title,
+			@JsonProperty("createdAt") final LocalDateTime createdAt,
+			@JsonProperty("modifiedAt") final LocalDateTime modifiedAt,
+			@JsonProperty("createdBy") final String createdBy, @JsonProperty("modifiedBy") final String modifiedBy,
+			@JsonProperty("questions") final List<QuestionnaireQuestionOutputDTO> questions) {
 		this.id = id;
 		this.title = title;
 		this.createdAt = createdAt;
