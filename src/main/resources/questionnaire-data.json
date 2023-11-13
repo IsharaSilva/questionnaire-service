@@ -251,7 +251,7 @@
 
                     "label": "Supporting Documents",
 
-                    "type": "DOCUMENT",
+                    "type": "FILE_UPLOAD",
 
                     "group": "",
 
@@ -290,7 +290,7 @@
 
                     "label": "Supplier Type",
 
-                    "type": "SELECTION",
+                    "type": "MULTI_SELECTION",
 
                     "group": "",
 
@@ -318,7 +318,7 @@
 
                     "label": "Supplier Category",
 
-                    "type": "SELECTION",
+                    "type": "SINGLE_SELECTION",
 
                     "group": "",
 
@@ -358,7 +358,7 @@
 
                     "label": "Questionnaire to be filled by",
 
-                    "type": "SELECTION",
+                    "type": "SINGLE_SELECTION",
 
                     "group": "",
 

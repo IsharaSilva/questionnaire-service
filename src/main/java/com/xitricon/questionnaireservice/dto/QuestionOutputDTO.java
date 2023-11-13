@@ -1,9 +1,6 @@
 package com.xitricon.questionnaireservice.dto;
 
 import java.util.List;
-import java.util.Map;
-
-import com.xitricon.questionnaireservice.model.enums.QuestionType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -13,10 +10,10 @@ public class QuestionOutputDTO {
 	private final String id;
 	private final int index;
 	private final String label;
-	private final QuestionType type;
+	private final String type;
 	private final String group;
-	private final List<Map<String,String>> validations;
+	private final List<QuestionValidationOutputDTO> validations;
 	private final boolean editable;
-	private final OptionsSourceOutputDTO optionsSource;
+	private final Object optionsSource;
 	private final List<QuestionOutputDTO> subQuestions;
 }

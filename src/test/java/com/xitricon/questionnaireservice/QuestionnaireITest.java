@@ -78,11 +78,11 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[0].label",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(0).getLabel()))
 				.body("pages[0].questions[0].type",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(0).getType().toString()))
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(0).getType()))
 				.body("pages[0].questions[0].group",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(0).getGroup()))
-				.body("pages[0].questions[0].validations[0]",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(0).getValidations().get(0)))
+				.body("pages[0].questions[0].validations[0].required",
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(0).getValidations().get(0).isRequired()))
 				.body("pages[0].questions[0].editable",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(0).isEditable()))
 				.body("pages[0].questions[0].optionsSource", notNullValue())
@@ -94,11 +94,11 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[1].label",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(1).getLabel()))
 				.body("pages[0].questions[1].type",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(1).getType().toString()))
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(1).getType()))
 				.body("pages[0].questions[1].group",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(1).getGroup()))
-				.body("pages[0].questions[1].validations[0]",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(1).getValidations().get(0)))
+				.body("pages[0].questions[1].validations[0].required",
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(1).getValidations().get(0).isRequired()))
 				.body("pages[0].questions[1].editable",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(1).isEditable()))
 				.body("pages[0].questions[1].optionsSource", notNullValue())
@@ -110,11 +110,11 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[2].label",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(2).getLabel()))
 				.body("pages[0].questions[2].type",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(2).getType().toString()))
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(2).getType()))
 				.body("pages[0].questions[2].group",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(2).getGroup()))
-				.body("pages[0].questions[2].validations[0]",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(2).getValidations().get(0)))
+				.body("pages[0].questions[2].validations[0].required",
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(2).getValidations().get(0).isRequired()))
 				.body("pages[0].questions[2].editable",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(2).isEditable()))
 				.body("pages[0].questions[2].optionsSource", notNullValue())
@@ -126,11 +126,11 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[3].label",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(3).getLabel()))
 				.body("pages[0].questions[3].type",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(3).getType().toString()))
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(3).getType()))
 				.body("pages[0].questions[3].group",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(3).getGroup()))
-				.body("pages[0].questions[3].validations[0]",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(3).getValidations().get(0)))
+				.body("pages[0].questions[3].validations[0].required",
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(3).getValidations().get(0).isRequired()))
 				.body("pages[0].questions[3].editable",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(3).isEditable()))
 				.body("pages[0].questions[3].optionsSource", notNullValue())
@@ -142,11 +142,11 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[4].label",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(4).getLabel()))
 				.body("pages[0].questions[4].type",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(4).getType().toString()))
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(4).getType()))
 				.body("pages[0].questions[4].group",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(4).getGroup()))
-				.body("pages[0].questions[4].validations[0]",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(4).getValidations().get(0)))
+				.body("pages[0].questions[4].validations[0].required",
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(4).getValidations().get(0).isRequired()))
 				.body("pages[0].questions[4].editable",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(4).isEditable()))
 				.body("pages[0].questions[4].optionsSource", notNullValue())
@@ -158,11 +158,11 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[5].label",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(5).getLabel()))
 				.body("pages[0].questions[5].type",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(5).getType().toString()))
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(5).getType()))
 				.body("pages[0].questions[5].group",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(5).getGroup()))
-				.body("pages[0].questions[5].validations[0]",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(5).getValidations().get(0)))
+				.body("pages[0].questions[5].validations[0].required",
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(5).getValidations().get(0).isRequired()))
 				.body("pages[0].questions[5].editable",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(5).isEditable()))
 				.body("pages[0].questions[5].optionsSource", notNullValue())
@@ -179,11 +179,11 @@ public class QuestionnaireITest {
 				.body("pages[1].questions[0].label",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(0).getLabel()))
 				.body("pages[1].questions[0].type",
-						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(0).getType().toString()))
+						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(0).getType()))
 				.body("pages[1].questions[0].group",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(0).getGroup()))
-				.body("pages[1].questions[0].validations[0]",
-						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(0).getValidations().get(0)))
+				.body("pages[1].questions[0].validations[0].required",
+						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(0).getValidations().get(0).isRequired()))
 				.body("pages[1].questions[0].editable",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(0).isEditable()))
 				.body("pages[1].questions[0].optionsSource", notNullValue())
@@ -195,11 +195,11 @@ public class QuestionnaireITest {
 				.body("pages[1].questions[1].label",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(1).getLabel()))
 				.body("pages[1].questions[1].type",
-						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(1).getType().toString()))
+						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(1).getType()))
 				.body("pages[1].questions[1].group",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(1).getGroup()))
-				.body("pages[1].questions[1].validations[0]",
-						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(1).getValidations().get(0)))
+				.body("pages[1].questions[1].validations[0].required",
+						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(1).getValidations().get(0).isRequired()))
 				.body("pages[1].questions[1].editable",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(1).isEditable()))
 				.body("pages[1].questions[1].optionsSource", notNullValue())
@@ -211,11 +211,11 @@ public class QuestionnaireITest {
 				.body("pages[1].questions[2].label",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(2).getLabel()))
 				.body("pages[1].questions[2].type",
-						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(2).getType().toString()))
+						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(2).getType()))
 				.body("pages[1].questions[2].group",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(2).getGroup()))
-				.body("pages[1].questions[2].validations[0]",
-						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(2).getValidations().get(0)))
+				.body("pages[1].questions[2].validations[0].required",
+						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(2).getValidations().get(0).isRequired()))
 				.body("pages[1].questions[2].editable",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(2).isEditable()))
 				.body("pages[1].questions[2].optionsSource", notNullValue())
@@ -232,11 +232,11 @@ public class QuestionnaireITest {
 				.body("pages[2].questions[0].label",
 						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(0).getLabel()))
 				.body("pages[2].questions[0].type",
-						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(0).getType().toString()))
+						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(0).getType()))
 				.body("pages[2].questions[0].group",
 						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(0).getGroup()))
-				.body("pages[2].questions[0].validations[0]",
-						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(0).getValidations().get(0)))
+				.body("pages[2].questions[0].validations[0].required",
+						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(0).getValidations().get(0).isRequired()))
 				.body("pages[2].questions[0].editable",
 						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(0).isEditable()))
 				.body("pages[2].questions[0].optionsSource", notNullValue())
@@ -248,11 +248,11 @@ public class QuestionnaireITest {
 				.body("pages[2].questions[1].label",
 						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(1).getLabel()))
 				.body("pages[2].questions[1].type",
-						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(1).getType().toString()))
+						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(1).getType()))
 				.body("pages[2].questions[1].group",
 						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(1).getGroup()))
-				.body("pages[2].questions[1].validations[0]",
-						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(1).getValidations().get(0)))
+				.body("pages[2].questions[1].validations[0].required",
+						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(1).getValidations().get(0).isRequired()))
 				.body("pages[2].questions[1].editable",
 						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(1).isEditable()))
 				.body("pages[2].questions[1].optionsSource", notNullValue())
@@ -269,11 +269,11 @@ public class QuestionnaireITest {
 				.body("pages[3].questions[0].label",
 						equalTo(savedQuestionnaire.getPages().get(3).getQuestions().get(0).getLabel()))
 				.body("pages[3].questions[0].type",
-						equalTo(savedQuestionnaire.getPages().get(3).getQuestions().get(0).getType().toString()))
+						equalTo(savedQuestionnaire.getPages().get(3).getQuestions().get(0).getType()))
 				.body("pages[3].questions[0].group",
 						equalTo(savedQuestionnaire.getPages().get(3).getQuestions().get(0).getGroup()))
-				.body("pages[3].questions[0].validations[0]",
-						equalTo(savedQuestionnaire.getPages().get(3).getQuestions().get(0).getValidations().get(0)))
+				.body("pages[3].questions[0].validations[0].required",
+						equalTo(savedQuestionnaire.getPages().get(3).getQuestions().get(0).getValidations().get(0).isRequired()))
 				.body("pages[3].questions[0].editable",
 						equalTo(savedQuestionnaire.getPages().get(3).getQuestions().get(0).isEditable()))
 				.body("pages[3].questions[0].optionsSource", notNullValue())
@@ -290,11 +290,11 @@ public class QuestionnaireITest {
 				.body("pages[4].questions[0].label",
 						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getLabel()))
 				.body("pages[4].questions[0].type",
-						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getType().toString()))
+						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getType()))
 				.body("pages[4].questions[0].group",
 						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getGroup()))
-				.body("pages[4].questions[0].validations[0]",
-						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getValidations().get(0)))
+				.body("pages[4].questions[0].validations[0].required",
+						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getValidations().get(0).isRequired()))
 				.body("pages[4].questions[0].editable",
 						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).isEditable()))
 				.body("pages[4].questions[0].optionsSource", notNullValue())
@@ -304,7 +304,7 @@ public class QuestionnaireITest {
 
 	@Test
 	public void testAddQuestionToQuestionnaire() {
-		Question question = Question.builder().label("Label 01").type(QuestionType.SINGLE_ANSWER).group("").optionsSource(null)
+		Question question = Question.builder().label("Label 01").type(QuestionType.SINGLE_ANSWER.toString()).group("").optionsSource(null)
 				.validations(null).editable(false).build();
 
 		QuestionnairePage questionnairePage = QuestionnairePage.builder().title("Page Title 01").questions(List.of(question))

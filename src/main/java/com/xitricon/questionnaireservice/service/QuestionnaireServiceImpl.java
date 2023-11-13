@@ -1,18 +1,17 @@
 package com.xitricon.questionnaireservice.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xitricon.questionnaireservice.dto.OptionsSourceOutputDTO;
-import com.xitricon.questionnaireservice.dto.QuestionOutputDTO;
+import com.xitricon.questionnaireservice.dto.QuestionnaireOutputDTO;
 import com.xitricon.questionnaireservice.dto.QuestionServiceOutputDTO;
 import com.xitricon.questionnaireservice.model.Question;
+import com.xitricon.questionnaireservice.model.QuestionValidation;
 import com.xitricon.questionnaireservice.model.QuestionnairePage;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 
 import com.xitricon.questionnaireservice.common.exception.ResourceNotFoundException;
-import com.xitricon.questionnaireservice.dto.QuestionnaireOutputDTO;
 import com.xitricon.questionnaireservice.model.Questionnaire;
 import com.xitricon.questionnaireservice.repository.QuestionnaireRepository;
 import org.springframework.web.client.RestTemplate;
@@ -28,15 +27,12 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 	private final QuestionnaireRepository questionnaireRepository;
 	private final RestTemplate restTemplate;
 	private final String questionServiceUrl;
-	private final ObjectMapper objectMapper;
 
 	public QuestionnaireServiceImpl(final QuestionnaireRepository questionnaireRepository, final RestTemplateBuilder restTemplateBuilder,
-									@Value("${external-api.question-service.find-by-id}") final String questionServiceUrl,
-									final ObjectMapper objectMapper) {
+									@Value("${external-api.question-service.find-by-id}") final String questionServiceUrl) {
 		this.questionnaireRepository = questionnaireRepository;
 		this.restTemplate = restTemplateBuilder.build();
 		this.questionServiceUrl = questionServiceUrl;
-		this.objectMapper = objectMapper;
 	}
 
 	@Override
@@ -49,24 +45,19 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 	public QuestionnaireOutputDTO addQuestionToQuestionnaire(String questionnaireId, String questionId, String pageId) {
 		Questionnaire questionnaire = questionnaireRepository.findById(questionnaireId)
 				.orElseThrow(() -> new ResourceNotFoundException("Questionnaire not found"));
-		log.info(String.format("Questionnaire with id: %s retrieved successfully", questionnaireId));
 
 		QuestionServiceOutputDTO questionServiceOutputDTO = restTemplate.getForObject(questionServiceUrl + questionId, QuestionServiceOutputDTO.class);
-		log.info(String.format("Question with id: %s retrieved successfully", questionId));
 
 		List<QuestionnairePage> pages = questionnaire.getPages();
 		QuestionnairePage page = pages.stream()
 				.filter(questionnairePage -> pageId.equals(questionnairePage.getId().toString()))
 				.findFirst().orElseThrow(() -> new ResourceNotFoundException("Page not found"));
-		log.info(String.format("Page with id: %s found within questionnaire: %s", pageId, questionnaireId));
 
 		int pageIdx = pages.indexOf(page);
 		List<Question> questions = page.getQuestions();
 		int questionIdxToBeSaved = !questions.isEmpty() ? questions.get(questions.size() - 1).getIndex() + 1 : 0;
 
-		QuestionOutputDTO questionOutput = createQuestionOutput(Objects.requireNonNull(questionServiceOutputDTO), questionIdxToBeSaved);
-
-		Question questionEntity = convertToQuestion(questionOutput);
+		Question questionEntity= createQuestionOutput(Objects.requireNonNull(questionServiceOutputDTO), questionIdxToBeSaved);
 		questions.add(questionEntity);
 
 		QuestionnairePage pageToBeSaved = buildPage(page, questions);
@@ -96,26 +87,17 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 				.build();
 	}
 
-	private QuestionOutputDTO createQuestionOutput(QuestionServiceOutputDTO questionServiceOutputDTO, int questionIdxToBeSaved) {
-		return new QuestionOutputDTO(
-				questionServiceOutputDTO.getId(),
-				questionIdxToBeSaved,
-				questionServiceOutputDTO.getTitle(),
-				questionServiceOutputDTO.getType(),
-				"",
-				questionServiceOutputDTO.getValidations(),
-				true,
-				new OptionsSourceOutputDTO(null, null),
-				new ArrayList<>()
-		);
-	}
-
-	private Question convertToQuestion(QuestionOutputDTO questionOutputDTO) {
-		try {
-			return objectMapper.convertValue(questionOutputDTO, Question.class);
-		} catch (IllegalArgumentException e) {
-			log.error(e.getLocalizedMessage());
-			return null;
-		}
+	private Question createQuestionOutput(QuestionServiceOutputDTO questionServiceOutputDTO, int questionIdxToBeSaved) {
+		return Question.builder()
+				.id(new ObjectId(questionServiceOutputDTO.getId()))
+				.index(questionIdxToBeSaved)
+				.label(questionServiceOutputDTO.getTitle())
+				.type(questionServiceOutputDTO.getType().toString())
+				.group("")
+				.validations(List.of(QuestionValidation.builder().required(true).build())) // TODO: Create validation output referring to service output
+				.editable(true) // TODO: Determine logic for editable
+				.optionsSource(null)
+				.subQuestions(new ArrayList<>())
+				.build();
 	}
 }

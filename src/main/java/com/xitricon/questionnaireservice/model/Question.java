@@ -1,12 +1,11 @@
 package com.xitricon.questionnaireservice.model;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
-import com.xitricon.questionnaireservice.dto.OptionsSourceOutputDTO;
-import com.xitricon.questionnaireservice.model.enums.QuestionType;
 import org.bson.types.ObjectId;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,11 +26,11 @@ public class Question {
 
 	private int index;
 	private String label;
-	private QuestionType type;
+	private String type;
 	private String group;
-	private List<Map<String,String>> validations;
+	private List<QuestionValidation> validations;
 	private boolean editable;
-	private OptionsSource optionsSource;
+	private Object optionsSource;
 	private List<Question> subQuestions;
 
 	@JsonIgnore
@@ -45,10 +44,12 @@ public class Question {
 			}
 		}
 
-		return new QuestionOutputDTO(
-				this.id.toString(), this.index, this.label, this.type, this.group, this.validations, this.editable,
-				Objects.nonNull(this.optionsSource) ? this.optionsSource.viewAsDTO() : new OptionsSourceOutputDTO(null, null),
-				subQuestionDTOs
-		);
+		return new QuestionOutputDTO(this.id.toString(), this.index, this.label, this.type, this.group,
+
+				(Objects.nonNull(this.validations)
+						? this.validations.stream().map(QuestionValidation::viewAsDTO).collect(Collectors.toList())
+						: Collections.emptyList()),
+
+				this.editable, this.optionsSource, subQuestionDTOs);
 	}
 }
