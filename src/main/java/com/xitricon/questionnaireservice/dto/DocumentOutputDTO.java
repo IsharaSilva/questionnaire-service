@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-public class DocumentOutputDTO extends QuestionServiceOutputDTO{
+public class DocumentOutputDTO extends QuestionServiceOutputDTO {
     private final List<String> fileType;
 
     public DocumentOutputDTO(String id, String title, QuestionType type, List<Map<String, String>> validations, List<String> fileType) {

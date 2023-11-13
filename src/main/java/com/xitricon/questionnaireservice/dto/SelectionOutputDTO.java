@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-public class SelectionOutputDTO extends QuestionServiceOutputDTO{
+public class SelectionOutputDTO extends QuestionServiceOutputDTO {
 
     private final OptionsSource optionsSource;
     private final boolean multiple;

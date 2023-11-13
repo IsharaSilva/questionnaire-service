@@ -17,87 +17,77 @@ import com.xitricon.questionnaireservice.repository.QuestionnaireRepository;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Service
 public class QuestionnaireServiceImpl implements QuestionnaireService {
 
-	private final QuestionnaireRepository questionnaireRepository;
-	private final RestTemplate restTemplate;
-	private final String questionServiceUrl;
+    private final QuestionnaireRepository questionnaireRepository;
+    private final RestTemplate restTemplate;
+    private final String questionServiceUrl;
 
-	public QuestionnaireServiceImpl(final QuestionnaireRepository questionnaireRepository, final RestTemplateBuilder restTemplateBuilder,
-									@Value("${external-api.question-service.find-by-id}") final String questionServiceUrl) {
-		this.questionnaireRepository = questionnaireRepository;
-		this.restTemplate = restTemplateBuilder.build();
-		this.questionServiceUrl = questionServiceUrl;
-	}
+    public QuestionnaireServiceImpl(final QuestionnaireRepository questionnaireRepository, final RestTemplateBuilder restTemplateBuilder,
+                                    @Value("${external-api.question-service.find-by-id}") final String questionServiceUrl) {
+        this.questionnaireRepository = questionnaireRepository;
+        this.restTemplate = restTemplateBuilder.build();
+        this.questionServiceUrl = questionServiceUrl;
+    }
 
-	@Override
-	public QuestionnaireOutputDTO getQuestionairesById(String id) {
-		return questionnaireRepository.findById(id).map(Questionnaire::viewAsDTO)
-				.orElseThrow(() -> new ResourceNotFoundException("Questionnaire not found"));
-	}
+    @Override
+    public QuestionnaireOutputDTO getQuestionairesById(String id) {
+        return getQuestionnaire(id).viewAsDTO();
+    }
 
-	@Override
-	public QuestionnaireOutputDTO addQuestionToQuestionnaire(String questionnaireId, String questionId, String pageId) {
-		Questionnaire questionnaire = questionnaireRepository.findById(questionnaireId)
-				.orElseThrow(() -> new ResourceNotFoundException("Questionnaire not found"));
+    @Override
+    public QuestionnaireOutputDTO addQuestionToQuestionnaire(String questionnaireId, String questionId, String pageId) {
+        Questionnaire questionnaire = getQuestionnaire(questionnaireId);
 
-		QuestionServiceOutputDTO questionServiceOutputDTO = restTemplate.getForObject(questionServiceUrl + questionId, QuestionServiceOutputDTO.class);
+        List<QuestionnairePage> pages = questionnaire.getPages();
+        QuestionnairePage page = pages.stream()
+                .filter(questionnairePage -> pageId.equals(questionnairePage.getId().toString()))
+                .findFirst().orElseThrow(() -> new ResourceNotFoundException("Page not found"));
 
-		List<QuestionnairePage> pages = questionnaire.getPages();
-		QuestionnairePage page = pages.stream()
-				.filter(questionnairePage -> pageId.equals(questionnairePage.getId().toString()))
-				.findFirst().orElseThrow(() -> new ResourceNotFoundException("Page not found"));
+        int pageIdx = pages.indexOf(page);
+        List<Question> questions = page.getQuestions();
+        int questionIdxToBeSaved = !questions.isEmpty() ? questions.stream().max(Comparator.comparing(Question::getIndex)).get().getIndex() + 1 : 0;
 
-		int pageIdx = pages.indexOf(page);
-		List<Question> questions = page.getQuestions();
-		int questionIdxToBeSaved = !questions.isEmpty() ? questions.get(questions.size() - 1).getIndex() + 1 : 0;
+        QuestionServiceOutputDTO questionServiceOutputDTO = restTemplate.getForObject(questionServiceUrl + questionId, QuestionServiceOutputDTO.class);
 
-		Question questionEntity = createQuestionOutput(Objects.requireNonNull(questionServiceOutputDTO), questionIdxToBeSaved);
-		questions.add(questionEntity);
+        Question questionEntity = Question.builder()
+                .id(new ObjectId(questionServiceOutputDTO.getId()))
+                .index(questionIdxToBeSaved)
+                .label(questionServiceOutputDTO.getTitle())
+                .type(questionServiceOutputDTO.getType().toString())
+                .group("")
+                .validations(List.of(QuestionValidation.builder().required(true).build())) // TODO: Create validation output referring to service output
+                .editable(true) // TODO: Determine logic for editable
+                .optionsSource(null)
+                .subQuestions(new ArrayList<>())
+                .build();
+        questions.add(questionEntity);
 
-		QuestionnairePage pageToBeSaved = buildPage(page, questions);
-		pages.set(pageIdx, pageToBeSaved);
+        QuestionnairePage pageToBeSaved = QuestionnairePage.builder()
+                .id(page.getId())
+                .questions(questions)
+                .title(page.getTitle())
+                .index(page.getIndex())
+                .build();
+        pages.set(pageIdx, pageToBeSaved);
 
-		Questionnaire questionnaireToBeSaved = buildQuestionnaire(questionnaire, pages);
+        Questionnaire questionnaireToBeSaved = Questionnaire.builder()
+                .id(questionnaire.getId())
+                .title(questionnaire.getTitle())
+                .pages(pages)
+                .createdBy(questionnaire.getCreatedBy())
+                .createdAt(questionnaire.getCreatedAt())
+                .build();
 
-		return questionnaireRepository.save(questionnaireToBeSaved).viewAsDTO();
-	}
+        return questionnaireRepository.save(questionnaireToBeSaved).viewAsDTO();
+    }
 
-	private Questionnaire buildQuestionnaire(Questionnaire questionnaire, List<QuestionnairePage> pages) {
-		return Questionnaire.builder()
-				.id(questionnaire.getId())
-				.title(questionnaire.getTitle())
-				.pages(pages)
-				.createdBy(questionnaire.getCreatedBy())
-				.createdAt(questionnaire.getCreatedAt())
-				.build();
-	}
-
-	private QuestionnairePage buildPage(QuestionnairePage page, List<Question> questions) {
-		return QuestionnairePage.builder()
-				.id(page.getId())
-				.questions(questions)
-				.title(page.getTitle())
-				.index(page.getIndex())
-				.build();
-	}
-
-	private Question createQuestionOutput(QuestionServiceOutputDTO questionServiceOutputDTO, int questionIdxToBeSaved) {
-		return Question.builder()
-				.id(new ObjectId(questionServiceOutputDTO.getId()))
-				.index(questionIdxToBeSaved)
-				.label(questionServiceOutputDTO.getTitle())
-				.type(questionServiceOutputDTO.getType().toString())
-				.group("")
-				.validations(List.of(QuestionValidation.builder().required(true).build())) // TODO: Create validation output referring to service output
-				.editable(true) // TODO: Determine logic for editable
-				.optionsSource(null)
-				.subQuestions(new ArrayList<>())
-				.build();
-	}
+    private Questionnaire getQuestionnaire(String id) {
+        return questionnaireRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Questionnaire not found"));
+    }
 }
