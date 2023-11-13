@@ -57,7 +57,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 		List<Question> questions = page.getQuestions();
 		int questionIdxToBeSaved = !questions.isEmpty() ? questions.get(questions.size() - 1).getIndex() + 1 : 0;
 
-		Question questionEntity= createQuestionOutput(Objects.requireNonNull(questionServiceOutputDTO), questionIdxToBeSaved);
+		Question questionEntity = createQuestionOutput(Objects.requireNonNull(questionServiceOutputDTO), questionIdxToBeSaved);
 		questions.add(questionEntity);
 
 		QuestionnairePage pageToBeSaved = buildPage(page, questions);
