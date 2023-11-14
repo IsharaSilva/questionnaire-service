@@ -8,7 +8,6 @@ import com.xitricon.questionnaireservice.model.QuestionnairePage;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 
 import com.xitricon.questionnaireservice.common.exception.ResourceNotFoundException;
@@ -28,10 +27,10 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     private final RestTemplate restTemplate;
     private final String questionServiceUrl;
 
-    public QuestionnaireServiceImpl(final QuestionnaireRepository questionnaireRepository, final RestTemplateBuilder restTemplateBuilder,
+    public QuestionnaireServiceImpl(final QuestionnaireRepository questionnaireRepository, final RestTemplate restTemplate,
                                     @Value("${external-api.question-service.find-by-id}") final String questionServiceUrl) {
         this.questionnaireRepository = questionnaireRepository;
-        this.restTemplate = restTemplateBuilder.build();
+        this.restTemplate = restTemplate;
         this.questionServiceUrl = questionServiceUrl;
     }
 
