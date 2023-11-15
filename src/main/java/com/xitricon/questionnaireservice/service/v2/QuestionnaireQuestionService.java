@@ -6,12 +6,12 @@ import com.xitricon.questionnaireservice.dto.v2.QuestionnaireQuestionUpdateInput
 import com.xitricon.questionnaireservice.dto.v2.QuestionnaireUpdateInputDTO;
 
 public interface QuestionnaireQuestionService {
-	QuestionnaireOutputDTO getQuestionaireById(String id);
+	QuestionnaireOutputDTO getQuestionaireById(String tenantId, String id);
 
 	QuestionnaireOutputDTO createQuestionnaire(QuestionnaireInputDTO questionnaireInput);
 
-	QuestionnaireOutputDTO updateQuestionnaire(String id, QuestionnaireUpdateInputDTO questionnaireUpdateInput);
+	QuestionnaireOutputDTO updateQuestionnaire(String tenantId, String id, QuestionnaireUpdateInputDTO questionnaireUpdateInput);
 
-	QuestionnaireOutputDTO updateQuestions(String id,
+	QuestionnaireOutputDTO updateQuestions(String tenantId, String id,
 			QuestionnaireQuestionUpdateInputDTO questionnaireQuestionUpdateInput);
 }

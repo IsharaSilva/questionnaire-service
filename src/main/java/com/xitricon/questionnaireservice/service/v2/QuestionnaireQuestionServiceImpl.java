@@ -24,8 +24,8 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
 	}
 
 	@Override
-	public QuestionnaireOutputDTO getQuestionaireById(String id) {
-		return this.findById(id).viewAsDTO();
+	public QuestionnaireOutputDTO getQuestionaireById(String tenantId, String id) {
+		return this.findByTenantIdAndId(tenantId, id).viewAsDTO();
 	}
 
 	@Override
@@ -35,26 +35,26 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
 						.determinator(qi.getDeterminator()).questionRef(qi.getQuestionRef()).build())
 				.collect(Collectors.toList());
 
-		Questionnaire questionnaireToSave = Questionnaire.builder().questions(questionnaireQuestions)
+		Questionnaire questionnaireToSave = Questionnaire.builder().tenantId(questionnaireInput.getTenantId()).questions(questionnaireQuestions)
 				.title(questionnaireInput.getTitle()).build();
 		return this.questionnaireRepository.save(questionnaireToSave).viewAsDTO();
 	}
 
 	@Override
-	public QuestionnaireOutputDTO updateQuestionnaire(String id, QuestionnaireUpdateInputDTO questionnaireUpdateInput) {
-		Questionnaire existingQuestionnaire = this.findById(id);
+	public QuestionnaireOutputDTO updateQuestionnaire(String tenantId, String id, QuestionnaireUpdateInputDTO questionnaireUpdateInput) {
+		Questionnaire existingQuestionnaire = this.findByTenantIdAndId(tenantId, id);
 
 		Questionnaire questionnaireToUpdate = Questionnaire.builder().createdAt(existingQuestionnaire.getCreatedAt())
-				.createdBy(existingQuestionnaire.getCreatedBy()).id(existingQuestionnaire.getId())
+				.createdBy(existingQuestionnaire.getCreatedBy()).tenantId(existingQuestionnaire.getTenantId()).id(existingQuestionnaire.getId())
 				.questions(existingQuestionnaire.getQuestions()).title(questionnaireUpdateInput.getTitle()).build();
 
 		return this.questionnaireRepository.save(questionnaireToUpdate).viewAsDTO();
 	}
 
 	@Override
-	public QuestionnaireOutputDTO updateQuestions(String id,
+	public QuestionnaireOutputDTO updateQuestions(String tenantId, String id,
 			QuestionnaireQuestionUpdateInputDTO questionnaireQuestionUpdateInput) {
-		Questionnaire existingQuestionnaire = this.findById(id);
+		Questionnaire existingQuestionnaire = this.findByTenantIdAndId(tenantId, id);
 
 		List<QuestionnaireQuestion> exitingQuestions = existingQuestionnaire.getQuestions();
 		List<String> removals = questionnaireQuestionUpdateInput.getRemovals();
@@ -70,14 +70,14 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
 		exitingQuestions.addAll(newAdditions);
 
 		Questionnaire questionnaireToUpdate = Questionnaire.builder().createdAt(existingQuestionnaire.getCreatedAt())
-				.createdBy(existingQuestionnaire.getCreatedBy()).id(existingQuestionnaire.getId())
-				.questions(exitingQuestions).title(existingQuestionnaire.getTitle()).build();
+				.createdBy(existingQuestionnaire.getCreatedBy()).tenantId(existingQuestionnaire.getTenantId())
+				.id(existingQuestionnaire.getId()).questions(exitingQuestions).title(existingQuestionnaire.getTitle()).build();
 
 		return this.questionnaireRepository.save(questionnaireToUpdate).viewAsDTO();
 	}
 
-	private Questionnaire findById(String id) {
-		return this.questionnaireRepository.findById(id)
+	private Questionnaire findByTenantIdAndId(String tenantId, String id) {
+		return this.questionnaireRepository.findByTenantIdAndId(tenantId, id)
 				.orElseThrow(() -> new ResourceNotFoundException("No Questionnaire found for this id"));
 	}
 

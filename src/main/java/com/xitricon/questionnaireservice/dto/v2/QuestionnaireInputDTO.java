@@ -10,12 +10,14 @@ import lombok.Getter;
 @Getter
 
 public class QuestionnaireInputDTO {
+	private final String tenantId;
 	private final String title;
 	private final List<QuestionnaireQuestionInputDTO> questions;
 
 	@JsonCreator
-	public QuestionnaireInputDTO(@JsonProperty("title") final String title,
+	public QuestionnaireInputDTO(@JsonProperty("tenantId") final String tenantId, @JsonProperty("title") final String title,
 			@JsonProperty("questions") final List<QuestionnaireQuestionInputDTO> questions) {
+		this.tenantId = tenantId;
 		this.title = title;
 		this.questions = questions;
 	}
