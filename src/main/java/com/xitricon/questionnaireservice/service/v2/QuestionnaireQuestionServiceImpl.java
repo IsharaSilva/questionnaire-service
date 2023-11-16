@@ -31,7 +31,7 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
 	@Override
 	public QuestionnaireOutputDTO createQuestionnaire(QuestionnaireInputDTO questionnaireInput) {
 		List<QuestionnaireQuestion> questionnaireQuestions = questionnaireInput.getQuestions().stream()
-				.map(qi -> QuestionnaireQuestion.builder().dependsOn(qi.getDependsOn())
+				.map(qi -> QuestionnaireQuestion.builder().tenantId(qi.getTenantId()).dependsOn(qi.getDependsOn())
 						.determinator(qi.getDeterminator()).questionRef(qi.getQuestionRef()).build())
 				.collect(Collectors.toList());
 

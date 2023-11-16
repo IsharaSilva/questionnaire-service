@@ -7,14 +7,16 @@ import lombok.Getter;
 
 @Getter
 public class QuestionnaireQuestionInputDTO {
+	private final String tenantId;
 	private final String questionRef;
 	private final String dependsOn;
 	private final String determinator;
 
 	@JsonCreator
-	public QuestionnaireQuestionInputDTO(@JsonProperty("questionRef") final String questionRef,
+	public QuestionnaireQuestionInputDTO(@JsonProperty("tenantId") final String tenantId, @JsonProperty("questionRef") final String questionRef,
 			@JsonProperty("dependsOn") final String dependsOn,
 			@JsonProperty("determinator") final String determinator) {
+		this.tenantId = tenantId;
 		this.questionRef = questionRef;
 		this.dependsOn = dependsOn;
 		this.determinator = determinator;

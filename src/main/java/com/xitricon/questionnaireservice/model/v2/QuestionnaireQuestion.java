@@ -18,13 +18,14 @@ public class QuestionnaireQuestion {
 	@Builder.Default
 	private ObjectId id = new ObjectId();
 
+	private String tenantId;
 	private String questionRef;
 	private String dependsOn;
 	private String determinator;
 
 	@JsonIgnore
 	public QuestionnaireQuestionOutputDTO viewAsDTO() {
-		return new QuestionnaireQuestionOutputDTO(this.id.toString(), this.questionRef, this.dependsOn,
+		return new QuestionnaireQuestionOutputDTO(this.id.toString(), this.tenantId, this.questionRef, this.dependsOn,
 				this.determinator);
 	}
 

@@ -53,8 +53,8 @@ public class QuestionnaireQuestionControllerTest {
 	@Test
 	void testCreateQuestionnaire() {
 		List<QuestionnaireQuestionInputDTO> questionList = Arrays.asList(
-				new QuestionnaireQuestionInputDTO("question1", "dependsOn1", "determinator1"),
-				new QuestionnaireQuestionInputDTO("question2", "dependsOn2", "determinator2"));
+				new QuestionnaireQuestionInputDTO(tenantId, "question1", "dependsOn1", "determinator1"),
+				new QuestionnaireQuestionInputDTO(tenantId, "question2", "dependsOn2", "determinator2"));
 		
 		QuestionnaireInputDTO inputDTO = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire", questionList);
 
@@ -66,8 +66,8 @@ public class QuestionnaireQuestionControllerTest {
 	@Test
 	void testGetQuestionnaireById() {
 		List<QuestionnaireQuestionInputDTO> questionList = Arrays.asList(
-				new QuestionnaireQuestionInputDTO("question1", "dependsOn1", "determinator1"),
-				new QuestionnaireQuestionInputDTO("question2", "dependsOn2", "determinator2"));
+				new QuestionnaireQuestionInputDTO(tenantId, "question1", "dependsOn1", "determinator1"),
+				new QuestionnaireQuestionInputDTO(tenantId, "question2", "dependsOn2", "determinator2"));
 
 		QuestionnaireInputDTO inputDTO = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire", questionList);
 
@@ -83,8 +83,8 @@ public class QuestionnaireQuestionControllerTest {
 	@Test
 	void testUpdateQuestionnaire() {
 		List<QuestionnaireQuestionInputDTO> questionList = Arrays.asList(
-				new QuestionnaireQuestionInputDTO("question1", "dependsOn1", "determinator1"),
-				new QuestionnaireQuestionInputDTO("question2", "dependsOn2", "determinator2"));
+				new QuestionnaireQuestionInputDTO(tenantId, "question1", "dependsOn1", "determinator1"),
+				new QuestionnaireQuestionInputDTO(tenantId, "question2", "dependsOn2", "determinator2"));
 
 		QuestionnaireInputDTO inputDTO = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire", questionList);
 
@@ -94,8 +94,8 @@ public class QuestionnaireQuestionControllerTest {
 		String id = JsonPath.from(respString).get("id");
 
 		List<QuestionnaireQuestionInputDTO> questionList2 = Arrays.asList(
-				new QuestionnaireQuestionInputDTO("question3", "dependsOn3", "determinator3"),
-				new QuestionnaireQuestionInputDTO("question4", "dependsOn4", "determinator4"));
+				new QuestionnaireQuestionInputDTO(tenantId, "question3", "dependsOn3", "determinator3"),
+				new QuestionnaireQuestionInputDTO(tenantId, "question4", "dependsOn4", "determinator4"));
 
 		QuestionnaireInputDTO inputDTO2 = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire2", questionList2);
 
@@ -113,8 +113,8 @@ public class QuestionnaireQuestionControllerTest {
 	@Test
 	void testUpdateQuestionnaireNotFound() {
 		List<QuestionnaireQuestionInputDTO> questionList = Arrays.asList(
-				new QuestionnaireQuestionInputDTO("question1", "dependsOn1", "determinator1"),
-				new QuestionnaireQuestionInputDTO("question2", "dependsOn2", "determinator2"));
+				new QuestionnaireQuestionInputDTO(tenantId, "question1", "dependsOn1", "determinator1"),
+				new QuestionnaireQuestionInputDTO(tenantId, "question2", "dependsOn2", "determinator2"));
 
 		QuestionnaireInputDTO inputDTO = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire", questionList);
 
@@ -125,8 +125,8 @@ public class QuestionnaireQuestionControllerTest {
 	@Test
 	void testUpdateQuestionnaireQuestions() {
 		List<QuestionnaireQuestionInputDTO> questionList = Arrays.asList(
-				new QuestionnaireQuestionInputDTO("question1", "dependsOn1", "determinator1"),
-				new QuestionnaireQuestionInputDTO("question2", "dependsOn2", "determinator2"));
+				new QuestionnaireQuestionInputDTO(tenantId, "question1", "dependsOn1", "determinator1"),
+				new QuestionnaireQuestionInputDTO(tenantId, "question2", "dependsOn2", "determinator2"));
 
 		QuestionnaireInputDTO inputDTO = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire", questionList);
 
@@ -168,8 +168,8 @@ public class QuestionnaireQuestionControllerTest {
 	@Test
 	void testCreateQuestionnaireBadRequest() {
 		List<QuestionnaireQuestionInputDTO> questionList = Arrays.asList(
-				new QuestionnaireQuestionInputDTO("question1", "dependsOn1", "determinator1"),
-				new QuestionnaireQuestionInputDTO("question2", "dependsOn2", "determinator2"));
+				new QuestionnaireQuestionInputDTO(tenantId, "question1", "dependsOn1", "determinator1"),
+				new QuestionnaireQuestionInputDTO(tenantId, "question2", "dependsOn2", "determinator2"));
 
 		QuestionnaireInputDTO inputDTO = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire", questionList);
 
@@ -181,8 +181,8 @@ public class QuestionnaireQuestionControllerTest {
 	@Test
 	void testUpdateQuestionnaireBadRequest() {
 		List<QuestionnaireQuestionInputDTO> questionList = Arrays.asList(
-				new QuestionnaireQuestionInputDTO("question1", "dependsOn1", "determinator1"),
-				new QuestionnaireQuestionInputDTO("question2", "dependsOn2", "determinator2"));
+				new QuestionnaireQuestionInputDTO(tenantId, "question1", "dependsOn1", "determinator1"),
+				new QuestionnaireQuestionInputDTO(tenantId, "question2", "dependsOn2", "determinator2"));
 
 		QuestionnaireInputDTO inputDTO = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire", questionList);
 
@@ -192,8 +192,8 @@ public class QuestionnaireQuestionControllerTest {
 		String id = JsonPath.from(respString).get("id");
 
 		List<QuestionnaireQuestionInputDTO> questionList2 = Arrays.asList(
-				new QuestionnaireQuestionInputDTO("question3", "dependsOn3", "determinator3"),
-				new QuestionnaireQuestionInputDTO("question4", "dependsOn4", "determinator4"));
+				new QuestionnaireQuestionInputDTO(tenantId, "question3", "dependsOn3", "determinator3"),
+				new QuestionnaireQuestionInputDTO(tenantId, "question4", "dependsOn4", "determinator4"));
 
 		QuestionnaireInputDTO inputDTO2 = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire2", questionList2);
 
