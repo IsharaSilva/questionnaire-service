@@ -7,6 +7,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class OptionsSourceOutputDTO {
-    private final SourceType type;
-    private final String key;
+	private final SourceType type;
+	private final String key;
 }

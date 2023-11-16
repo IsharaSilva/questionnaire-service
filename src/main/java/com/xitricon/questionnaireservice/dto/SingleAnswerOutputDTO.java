@@ -9,8 +9,8 @@ import java.util.Map;
 @Getter
 public class SingleAnswerOutputDTO extends QuestionServiceOutputDTO {
 
-    public SingleAnswerOutputDTO(String id, String title, QuestionType type, List<Map<String, String>> validations) {
-        super(id, title, type, validations);
-    }
+	public SingleAnswerOutputDTO(String id, String title, QuestionType type, List<Map<String, String>> validations) {
+		super(id, title, type, validations);
+	}
 
 }

@@ -10,10 +10,10 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 public class OptionsSource {
-    private SourceType type;
-    private String key;
+	private SourceType type;
+	private String key;
 
-    public OptionsSourceOutputDTO viewAsDTO() {
-        return new OptionsSourceOutputDTO(this.type, this.key);
-    }
+	public OptionsSourceOutputDTO viewAsDTO() {
+		return new OptionsSourceOutputDTO(this.type, this.key);
+	}
 }

@@ -6,5 +6,5 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class QuestionValidationOutputDTO {
-    private final boolean required;
+	private final boolean required;
 }
