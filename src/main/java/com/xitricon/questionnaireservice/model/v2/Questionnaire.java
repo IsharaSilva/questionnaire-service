@@ -29,7 +29,8 @@ public class Questionnaire extends Auditable<String> {
 
 	@JsonIgnore
 	public QuestionnaireOutputDTO viewAsDTO() {
-		return new QuestionnaireOutputDTO(this.id, this.tenantId, this.title, this.createdAt, this.modifiedAt, this.createdBy,
-				this.modifiedBy, this.questions.stream().map(QuestionnaireQuestion::viewAsDTO).toList());
+		return new QuestionnaireOutputDTO(this.id, this.tenantId, this.title, this.createdAt, this.modifiedAt,
+				this.createdBy, this.modifiedBy,
+				this.questions.stream().map(QuestionnaireQuestion::viewAsDTO).toList());
 	}
 }

@@ -30,7 +30,7 @@ public class QuestionnaireQuestionControllerTest {
 
 	private static final String QuestionnaireQuestion_PATH = "/api/v2/questionnaires";
 	private static final String QuestionnaireQuestion_ID_PATH = "/api/v2/questionnaires/{id}";
-	
+
 	private final String tenantId = "001";
 
 	@Autowired
@@ -55,12 +55,13 @@ public class QuestionnaireQuestionControllerTest {
 		List<QuestionnaireQuestionInputDTO> questionList = Arrays.asList(
 				new QuestionnaireQuestionInputDTO(tenantId, "question1", "dependsOn1", "determinator1"),
 				new QuestionnaireQuestionInputDTO(tenantId, "question2", "dependsOn2", "determinator2"));
-		
+
 		QuestionnaireInputDTO inputDTO = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire", questionList);
 
-		given().contentType(ContentType.JSON).body(inputDTO).queryParam("tenantId", tenantId).when().post(QuestionnaireQuestion_PATH).then()
-				.statusCode(HttpStatus.SC_CREATED).body("title", equalTo("Sample Questionnaire"))
-				.body("id", notNullValue()).body("createdAt", notNullValue());
+		given().contentType(ContentType.JSON).body(inputDTO).queryParam("tenantId", tenantId).when()
+				.post(QuestionnaireQuestion_PATH).then().statusCode(HttpStatus.SC_CREATED)
+				.body("title", equalTo("Sample Questionnaire")).body("id", notNullValue())
+				.body("createdAt", notNullValue());
 	}
 
 	@Test
@@ -71,13 +72,15 @@ public class QuestionnaireQuestionControllerTest {
 
 		QuestionnaireInputDTO inputDTO = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire", questionList);
 
-		String respString = RestAssured.given().contentType(ContentType.JSON).body(inputDTO).queryParam("tenantId", tenantId)
-				.post(QuestionnaireQuestion_PATH).then().statusCode(HttpStatus.SC_CREATED).extract().asString();
+		String respString = RestAssured.given().contentType(ContentType.JSON).body(inputDTO)
+				.queryParam("tenantId", tenantId).post(QuestionnaireQuestion_PATH).then()
+				.statusCode(HttpStatus.SC_CREATED).extract().asString();
 
 		String id = JsonPath.from(respString).get("id");
 
-		RestAssured.given().contentType(ContentType.JSON).queryParam("tenantId", tenantId).pathParam("id", id).get(QuestionnaireQuestion_ID_PATH).then()
-				.statusCode(HttpStatus.SC_OK).body("title", equalTo(inputDTO.getTitle()));
+		RestAssured.given().contentType(ContentType.JSON).queryParam("tenantId", tenantId).pathParam("id", id)
+				.get(QuestionnaireQuestion_ID_PATH).then().statusCode(HttpStatus.SC_OK)
+				.body("title", equalTo(inputDTO.getTitle()));
 	}
 
 	@Test
@@ -88,8 +91,9 @@ public class QuestionnaireQuestionControllerTest {
 
 		QuestionnaireInputDTO inputDTO = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire", questionList);
 
-		String respString = RestAssured.given().contentType(ContentType.JSON).body(inputDTO).queryParam("tenantId", tenantId)
-				.post(QuestionnaireQuestion_PATH).then().statusCode(HttpStatus.SC_CREATED).extract().asString();
+		String respString = RestAssured.given().contentType(ContentType.JSON).body(inputDTO)
+				.queryParam("tenantId", tenantId).post(QuestionnaireQuestion_PATH).then()
+				.statusCode(HttpStatus.SC_CREATED).extract().asString();
 
 		String id = JsonPath.from(respString).get("id");
 
@@ -99,15 +103,15 @@ public class QuestionnaireQuestionControllerTest {
 
 		QuestionnaireInputDTO inputDTO2 = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire2", questionList2);
 
-		RestAssured.given().contentType(ContentType.JSON).queryParam("tenantId", tenantId).pathParam("id", id).body(inputDTO2)
-				.put(QuestionnaireQuestion_ID_PATH).then().statusCode(HttpStatus.SC_OK)
+		RestAssured.given().contentType(ContentType.JSON).queryParam("tenantId", tenantId).pathParam("id", id)
+				.body(inputDTO2).put(QuestionnaireQuestion_ID_PATH).then().statusCode(HttpStatus.SC_OK)
 				.body("title", equalTo(inputDTO2.getTitle()));
 	}
 
 	@Test
 	void testGetQuestionnaireByIdNotFound() {
-		given().contentType(ContentType.JSON).queryParam("tenantId", tenantId).when().get(QuestionnaireQuestion_ID_PATH, "1").then()
-				.statusCode(HttpStatus.SC_NOT_FOUND);
+		given().contentType(ContentType.JSON).queryParam("tenantId", tenantId).when()
+				.get(QuestionnaireQuestion_ID_PATH, "1").then().statusCode(HttpStatus.SC_NOT_FOUND);
 	}
 
 	@Test
@@ -118,8 +122,8 @@ public class QuestionnaireQuestionControllerTest {
 
 		QuestionnaireInputDTO inputDTO = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire", questionList);
 
-		given().contentType(ContentType.JSON).body(inputDTO).queryParam("tenantId", tenantId).when().put(QuestionnaireQuestion_ID_PATH, "1").then()
-				.statusCode(HttpStatus.SC_NOT_FOUND);
+		given().contentType(ContentType.JSON).body(inputDTO).queryParam("tenantId", tenantId).when()
+				.put(QuestionnaireQuestion_ID_PATH, "1").then().statusCode(HttpStatus.SC_NOT_FOUND);
 	}
 
 	@Test
@@ -130,17 +134,17 @@ public class QuestionnaireQuestionControllerTest {
 
 		QuestionnaireInputDTO inputDTO = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire", questionList);
 
-		String respString = RestAssured.given().contentType(ContentType.JSON).body(inputDTO).queryParam("tenantId", tenantId)
-				.post(QuestionnaireQuestion_PATH).then().statusCode(HttpStatus.SC_CREATED).extract().asString();
+		String respString = RestAssured.given().contentType(ContentType.JSON).body(inputDTO)
+				.queryParam("tenantId", tenantId).post(QuestionnaireQuestion_PATH).then()
+				.statusCode(HttpStatus.SC_CREATED).extract().asString();
 
 		String id = JsonPath.from(respString).get("id");
 
 		RestAssured.given().contentType(ContentType.JSON).pathParam("id", id)
 				.body("{\n" + "  \"additions\": [\n" + "    \"question3\",\n" + "    \"question4\"\n" + "  ],\n"
 						+ "  \"removals\": [\n" + "    \"question1\",\n" + "    \"question2\"\n" + "  ]\n" + "}")
-				.queryParam("tenantId", tenantId)
-				.put(QuestionnaireQuestion_ID_PATH + "/questions").then().statusCode(HttpStatus.SC_OK)
-				.body("questions.size()", equalTo(2));
+				.queryParam("tenantId", tenantId).put(QuestionnaireQuestion_ID_PATH + "/questions").then()
+				.statusCode(HttpStatus.SC_OK).body("questions.size()", equalTo(2));
 	}
 
 	@Test
@@ -149,8 +153,7 @@ public class QuestionnaireQuestionControllerTest {
 		given().contentType(ContentType.JSON)
 				.body("{\n" + "  \"additions\": [\n" + "    \"question3\",\n" + "    \"question4\"\n" + "  ],\n"
 						+ "  \"removals\": [\n" + "    \"question1\",\n" + "    \"question2\"\n" + "  ]\n" + "}")
-				.queryParam("tenantId", tenantId)
-				.when().put(QuestionnaireQuestion_ID_PATH + "/questions", "1").then()
+				.queryParam("tenantId", tenantId).when().put(QuestionnaireQuestion_ID_PATH + "/questions", "1").then()
 				.statusCode(HttpStatus.SC_NOT_FOUND);
 	}
 
@@ -160,8 +163,7 @@ public class QuestionnaireQuestionControllerTest {
 		given().contentType(ContentType.JSON)
 				.body("{\n" + "  \"additions\": [\n" + "    \"question3\",\n" + "    \"question4\"\n" + "  ],\n"
 						+ "  \"removals\": [\n" + "    \"question1\",\n" + "    \"question2\"\n" + "  ]\n" + "}")
-				.queryParam("tenantId", tenantId)
-				.when().put(QuestionnaireQuestion_ID_PATH + "/questions", "1").then()
+				.queryParam("tenantId", tenantId).when().put(QuestionnaireQuestion_ID_PATH + "/questions", "1").then()
 				.statusCode(HttpStatus.SC_NOT_FOUND);
 	}
 
@@ -173,9 +175,10 @@ public class QuestionnaireQuestionControllerTest {
 
 		QuestionnaireInputDTO inputDTO = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire", questionList);
 
-		given().contentType(ContentType.JSON).body(inputDTO).queryParam("tenantId", tenantId).when().post(QuestionnaireQuestion_PATH).then()
-				.statusCode(HttpStatus.SC_CREATED).body("title", equalTo("Sample Questionnaire"))
-				.body("id", notNullValue()).body("createdAt", notNullValue());
+		given().contentType(ContentType.JSON).body(inputDTO).queryParam("tenantId", tenantId).when()
+				.post(QuestionnaireQuestion_PATH).then().statusCode(HttpStatus.SC_CREATED)
+				.body("title", equalTo("Sample Questionnaire")).body("id", notNullValue())
+				.body("createdAt", notNullValue());
 	}
 
 	@Test
@@ -186,8 +189,9 @@ public class QuestionnaireQuestionControllerTest {
 
 		QuestionnaireInputDTO inputDTO = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire", questionList);
 
-		String respString = RestAssured.given().contentType(ContentType.JSON).body(inputDTO).queryParam("tenantId", tenantId)
-				.post(QuestionnaireQuestion_PATH).then().statusCode(HttpStatus.SC_CREATED).extract().asString();
+		String respString = RestAssured.given().contentType(ContentType.JSON).body(inputDTO)
+				.queryParam("tenantId", tenantId).post(QuestionnaireQuestion_PATH).then()
+				.statusCode(HttpStatus.SC_CREATED).extract().asString();
 
 		String id = JsonPath.from(respString).get("id");
 
@@ -198,15 +202,14 @@ public class QuestionnaireQuestionControllerTest {
 		QuestionnaireInputDTO inputDTO2 = new QuestionnaireInputDTO(tenantId, "Sample Questionnaire2", questionList2);
 
 		RestAssured.given().contentType(ContentType.JSON).pathParam("id", id).body(inputDTO2)
-				.queryParam("tenantId", tenantId)
-				.put(QuestionnaireQuestion_ID_PATH).then().statusCode(HttpStatus.SC_OK)
+				.queryParam("tenantId", tenantId).put(QuestionnaireQuestion_ID_PATH).then().statusCode(HttpStatus.SC_OK)
 				.body("title", equalTo(inputDTO2.getTitle()));
 	}
 
 	@Test
 	void testGetQuestionnaireByIdBadRequest() {
-		given().contentType(ContentType.JSON).queryParam("tenantId", tenantId).when().get(QuestionnaireQuestion_ID_PATH, "1").then()
-				.statusCode(HttpStatus.SC_NOT_FOUND);
+		given().contentType(ContentType.JSON).queryParam("tenantId", tenantId).when()
+				.get(QuestionnaireQuestion_ID_PATH, "1").then().statusCode(HttpStatus.SC_NOT_FOUND);
 	}
 
 }

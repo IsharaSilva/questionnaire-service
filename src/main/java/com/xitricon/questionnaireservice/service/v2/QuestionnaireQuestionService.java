@@ -10,7 +10,8 @@ public interface QuestionnaireQuestionService {
 
 	QuestionnaireOutputDTO createQuestionnaire(QuestionnaireInputDTO questionnaireInput);
 
-	QuestionnaireOutputDTO updateQuestionnaire(String tenantId, String id, QuestionnaireUpdateInputDTO questionnaireUpdateInput);
+	QuestionnaireOutputDTO updateQuestionnaire(String tenantId, String id,
+			QuestionnaireUpdateInputDTO questionnaireUpdateInput);
 
 	QuestionnaireOutputDTO updateQuestions(String tenantId, String id,
 			QuestionnaireQuestionUpdateInputDTO questionnaireQuestionUpdateInput);

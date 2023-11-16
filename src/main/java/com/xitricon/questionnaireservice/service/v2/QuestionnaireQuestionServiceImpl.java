@@ -35,18 +35,20 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
 						.determinator(qi.getDeterminator()).questionRef(qi.getQuestionRef()).build())
 				.collect(Collectors.toList());
 
-		Questionnaire questionnaireToSave = Questionnaire.builder().tenantId(questionnaireInput.getTenantId()).questions(questionnaireQuestions)
-				.title(questionnaireInput.getTitle()).build();
+		Questionnaire questionnaireToSave = Questionnaire.builder().tenantId(questionnaireInput.getTenantId())
+				.questions(questionnaireQuestions).title(questionnaireInput.getTitle()).build();
 		return this.questionnaireRepository.save(questionnaireToSave).viewAsDTO();
 	}
 
 	@Override
-	public QuestionnaireOutputDTO updateQuestionnaire(String tenantId, String id, QuestionnaireUpdateInputDTO questionnaireUpdateInput) {
+	public QuestionnaireOutputDTO updateQuestionnaire(String tenantId, String id,
+			QuestionnaireUpdateInputDTO questionnaireUpdateInput) {
 		Questionnaire existingQuestionnaire = this.findByTenantIdAndId(tenantId, id);
 
 		Questionnaire questionnaireToUpdate = Questionnaire.builder().createdAt(existingQuestionnaire.getCreatedAt())
-				.createdBy(existingQuestionnaire.getCreatedBy()).tenantId(existingQuestionnaire.getTenantId()).id(existingQuestionnaire.getId())
-				.questions(existingQuestionnaire.getQuestions()).title(questionnaireUpdateInput.getTitle()).build();
+				.createdBy(existingQuestionnaire.getCreatedBy()).tenantId(existingQuestionnaire.getTenantId())
+				.id(existingQuestionnaire.getId()).questions(existingQuestionnaire.getQuestions())
+				.title(questionnaireUpdateInput.getTitle()).build();
 
 		return this.questionnaireRepository.save(questionnaireToUpdate).viewAsDTO();
 	}
@@ -71,7 +73,8 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
 
 		Questionnaire questionnaireToUpdate = Questionnaire.builder().createdAt(existingQuestionnaire.getCreatedAt())
 				.createdBy(existingQuestionnaire.getCreatedBy()).tenantId(existingQuestionnaire.getTenantId())
-				.id(existingQuestionnaire.getId()).questions(exitingQuestions).title(existingQuestionnaire.getTitle()).build();
+				.id(existingQuestionnaire.getId()).questions(exitingQuestions).title(existingQuestionnaire.getTitle())
+				.build();
 
 		return this.questionnaireRepository.save(questionnaireToUpdate).viewAsDTO();
 	}

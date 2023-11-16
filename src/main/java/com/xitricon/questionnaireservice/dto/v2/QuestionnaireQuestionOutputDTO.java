@@ -10,8 +10,9 @@ public class QuestionnaireQuestionOutputDTO extends QuestionnaireQuestionInputDT
 	private final String id;
 
 	@JsonCreator
-	public QuestionnaireQuestionOutputDTO(@JsonProperty("id") final String id, @JsonProperty("tenantId") final String tenantId,
-			@JsonProperty("questionRef") final String questionRef, @JsonProperty("dependsOn") final String dependsOn,
+	public QuestionnaireQuestionOutputDTO(@JsonProperty("id") final String id,
+			@JsonProperty("tenantId") final String tenantId, @JsonProperty("questionRef") final String questionRef,
+			@JsonProperty("dependsOn") final String dependsOn,
 			@JsonProperty("determinator") final String determinator) {
 		super(tenantId, questionRef, dependsOn, determinator);
 		this.id = id;

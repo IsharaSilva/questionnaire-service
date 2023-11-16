@@ -13,8 +13,8 @@ public class QuestionnaireQuestionInputDTO {
 	private final String determinator;
 
 	@JsonCreator
-	public QuestionnaireQuestionInputDTO(@JsonProperty("tenantId") final String tenantId, @JsonProperty("questionRef") final String questionRef,
-			@JsonProperty("dependsOn") final String dependsOn,
+	public QuestionnaireQuestionInputDTO(@JsonProperty("tenantId") final String tenantId,
+			@JsonProperty("questionRef") final String questionRef, @JsonProperty("dependsOn") final String dependsOn,
 			@JsonProperty("determinator") final String determinator) {
 		this.tenantId = tenantId;
 		this.questionRef = questionRef;
