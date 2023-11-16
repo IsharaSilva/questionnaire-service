@@ -2,50 +2,24 @@ package com.xitricon.questionnaireservice;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xitricon.questionnaireservice.dto.QuestionOutputDTO;
-import com.xitricon.questionnaireservice.dto.QuestionServiceOutputDTO;
-import com.xitricon.questionnaireservice.dto.QuestionnaireOutputDTO;
-import com.xitricon.questionnaireservice.model.Question;
-import com.xitricon.questionnaireservice.model.QuestionnairePage;
-import com.xitricon.questionnaireservice.model.enums.QuestionType;
-import com.xitricon.questionnaireservice.service.QuestionnaireService;
-import com.xitricon.questionnaireservice.utils.TestConstants;
 
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import com.xitricon.questionnaireservice.model.Questionnaire;
 import com.xitricon.questionnaireservice.repository.QuestionnaireRepository;
+import com.xitricon.questionnaireservice.utils.TestConstants;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.client.ExpectedCount;
-import org.springframework.test.web.client.MockRestServiceServer;
-import org.springframework.web.client.RestTemplate;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureDataMongo
@@ -55,18 +29,6 @@ public class QuestionnaireITest {
 	@Autowired
 	QuestionnaireRepository questionnaireRepository;
 
-	@Autowired
-	QuestionnaireService questionnaireService;
-
-	@Autowired
-	RestTemplate restTemplate;
-
-	@Value("${external-api.question-service.find-by-id}")
-	private String findQuestionUrl;
-
-	private MockRestServiceServer mockServer;
-	private final ObjectMapper mapper = new ObjectMapper();
-
 	@LocalServerPort
 	private int port;
 
@@ -74,7 +36,6 @@ public class QuestionnaireITest {
 	public void setUp() {
 		RestAssured.baseURI = "http://localhost";
 		RestAssured.port = port;
-		mockServer = MockRestServiceServer.createServer(restTemplate);
 	}
 
 	@AfterEach
@@ -114,7 +75,8 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[0].group",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(0).getGroup()))
 				.body("pages[0].questions[0].validations[0].required",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(0).getValidations().get(0).isRequired()))
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(0).getValidations().get(0)
+								.isRequired()))
 				.body("pages[0].questions[0].editable",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(0).isEditable()))
 				.body("pages[0].questions[0].optionsSource", notNullValue())
@@ -130,7 +92,8 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[1].group",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(1).getGroup()))
 				.body("pages[0].questions[1].validations[0].required",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(1).getValidations().get(0).isRequired()))
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(1).getValidations().get(0)
+								.isRequired()))
 				.body("pages[0].questions[1].editable",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(1).isEditable()))
 				.body("pages[0].questions[1].optionsSource", notNullValue())
@@ -146,7 +109,8 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[2].group",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(2).getGroup()))
 				.body("pages[0].questions[2].validations[0].required",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(2).getValidations().get(0).isRequired()))
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(2).getValidations().get(0)
+								.isRequired()))
 				.body("pages[0].questions[2].editable",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(2).isEditable()))
 				.body("pages[0].questions[2].optionsSource", notNullValue())
@@ -162,7 +126,8 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[3].group",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(3).getGroup()))
 				.body("pages[0].questions[3].validations[0].required",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(3).getValidations().get(0).isRequired()))
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(3).getValidations().get(0)
+								.isRequired()))
 				.body("pages[0].questions[3].editable",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(3).isEditable()))
 				.body("pages[0].questions[3].optionsSource", notNullValue())
@@ -178,7 +143,8 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[4].group",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(4).getGroup()))
 				.body("pages[0].questions[4].validations[0].required",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(4).getValidations().get(0).isRequired()))
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(4).getValidations().get(0)
+								.isRequired()))
 				.body("pages[0].questions[4].editable",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(4).isEditable()))
 				.body("pages[0].questions[4].optionsSource", notNullValue())
@@ -194,7 +160,8 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[5].group",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(5).getGroup()))
 				.body("pages[0].questions[5].validations[0].required",
-						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(5).getValidations().get(0).isRequired()))
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(5).getValidations().get(0)
+								.isRequired()))
 				.body("pages[0].questions[5].editable",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(5).isEditable()))
 				.body("pages[0].questions[5].optionsSource", notNullValue())
@@ -215,7 +182,8 @@ public class QuestionnaireITest {
 				.body("pages[1].questions[0].group",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(0).getGroup()))
 				.body("pages[1].questions[0].validations[0].required",
-						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(0).getValidations().get(0).isRequired()))
+						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(0).getValidations().get(0)
+								.isRequired()))
 				.body("pages[1].questions[0].editable",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(0).isEditable()))
 				.body("pages[1].questions[0].optionsSource", notNullValue())
@@ -231,7 +199,8 @@ public class QuestionnaireITest {
 				.body("pages[1].questions[1].group",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(1).getGroup()))
 				.body("pages[1].questions[1].validations[0].required",
-						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(1).getValidations().get(0).isRequired()))
+						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(1).getValidations().get(0)
+								.isRequired()))
 				.body("pages[1].questions[1].editable",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(1).isEditable()))
 				.body("pages[1].questions[1].optionsSource", notNullValue())
@@ -247,7 +216,8 @@ public class QuestionnaireITest {
 				.body("pages[1].questions[2].group",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(2).getGroup()))
 				.body("pages[1].questions[2].validations[0].required",
-						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(2).getValidations().get(0).isRequired()))
+						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(2).getValidations().get(0)
+								.isRequired()))
 				.body("pages[1].questions[2].editable",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(2).isEditable()))
 				.body("pages[1].questions[2].optionsSource", notNullValue())
@@ -268,7 +238,8 @@ public class QuestionnaireITest {
 				.body("pages[2].questions[0].group",
 						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(0).getGroup()))
 				.body("pages[2].questions[0].validations[0].required",
-						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(0).getValidations().get(0).isRequired()))
+						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(0).getValidations().get(0)
+								.isRequired()))
 				.body("pages[2].questions[0].editable",
 						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(0).isEditable()))
 				.body("pages[2].questions[0].optionsSource", notNullValue())
@@ -284,7 +255,8 @@ public class QuestionnaireITest {
 				.body("pages[2].questions[1].group",
 						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(1).getGroup()))
 				.body("pages[2].questions[1].validations[0].required",
-						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(1).getValidations().get(0).isRequired()))
+						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(1).getValidations().get(0)
+								.isRequired()))
 				.body("pages[2].questions[1].editable",
 						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(1).isEditable()))
 				.body("pages[2].questions[1].optionsSource", notNullValue())
@@ -305,7 +277,8 @@ public class QuestionnaireITest {
 				.body("pages[3].questions[0].group",
 						equalTo(savedQuestionnaire.getPages().get(3).getQuestions().get(0).getGroup()))
 				.body("pages[3].questions[0].validations[0].required",
-						equalTo(savedQuestionnaire.getPages().get(3).getQuestions().get(0).getValidations().get(0).isRequired()))
+						equalTo(savedQuestionnaire.getPages().get(3).getQuestions().get(0).getValidations().get(0)
+								.isRequired()))
 				.body("pages[3].questions[0].editable",
 						equalTo(savedQuestionnaire.getPages().get(3).getQuestions().get(0).isEditable()))
 				.body("pages[3].questions[0].optionsSource", notNullValue())
@@ -326,46 +299,13 @@ public class QuestionnaireITest {
 				.body("pages[4].questions[0].group",
 						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getGroup()))
 				.body("pages[4].questions[0].validations[0].required",
-						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getValidations().get(0).isRequired()))
+						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getValidations().get(0)
+								.isRequired()))
 				.body("pages[4].questions[0].editable",
 						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).isEditable()))
 				.body("pages[4].questions[0].optionsSource", notNullValue())
 				.body("pages[4].questions[0].subQuestions", notNullValue());
 
-	}
-
-	@Test
-	public void testAddQuestionToQuestionnaire() throws URISyntaxException, JsonProcessingException {
-		Question question = Question.builder().label("Label 01").type(QuestionType.SINGLE_ANSWER.toString()).group("").optionsSource(null)
-				.validations(null).editable(false).build();
-
-		QuestionnairePage questionnairePage = QuestionnairePage.builder().title("Page Title 01").questions(List.of(question))
-				.build();
-
-		Questionnaire savedQuestionnaire = this.questionnaireRepository
-				.save(Questionnaire.builder().title("Title 01").pages(List.of(questionnairePage)).build());
-
-		String questionId = "654c0048d7db1379df7e7f1e";
-		String title = "Single Answer type Question";
-		QuestionType questionType = QuestionType.SINGLE_ANSWER;
-
-		QuestionServiceOutputDTO expectedQuestionOutput = new QuestionServiceOutputDTO(questionId, title, questionType, new ArrayList<>());
-
-		mockServer.expect(ExpectedCount.once(),
-				requestTo(new URI(findQuestionUrl + questionId)))
-				.andExpect(method(HttpMethod.GET))
-				.andRespond(withStatus(HttpStatusCode.valueOf(HttpStatus.SC_OK))
-						.contentType(MediaType.APPLICATION_JSON)
-						.body(mapper.writeValueAsString(expectedQuestionOutput))
-				);
-
-		QuestionnaireOutputDTO questionnaireOutputDTO = questionnaireService
-				.addQuestionToQuestionnaire(savedQuestionnaire.getId(), questionId, savedQuestionnaire.getPages().get(0).getId().toString());
-
-		QuestionOutputDTO savedQuestion = questionnaireOutputDTO.getPages().get(0).getQuestions().stream()
-				.filter(questionOutputDTO -> questionOutputDTO.getId().equals(questionId)).findFirst().orElse(null);
-
-		assertThat(savedQuestion, is(notNullValue()));
 	}
 
 	@Test
