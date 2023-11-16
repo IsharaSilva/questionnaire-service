@@ -1,4 +1,4 @@
-package com.xitricon.questionnaireservice.testutils;
+package com.xitricon.questionnaireservice.utils;
 
 public class TestConstants {
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";

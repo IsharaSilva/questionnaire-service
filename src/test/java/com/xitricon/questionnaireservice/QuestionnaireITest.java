@@ -23,6 +23,8 @@ import com.xitricon.questionnaireservice.model.Question;
 import com.xitricon.questionnaireservice.model.QuestionnairePage;
 import com.xitricon.questionnaireservice.model.enums.QuestionType;
 import com.xitricon.questionnaireservice.service.QuestionnaireService;
+import com.xitricon.questionnaireservice.utils.TestConstants;
+
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +37,6 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 import com.xitricon.questionnaireservice.model.Questionnaire;
 import com.xitricon.questionnaireservice.repository.QuestionnaireRepository;
-import com.xitricon.questionnaireservice.testutils.TestConstants;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
