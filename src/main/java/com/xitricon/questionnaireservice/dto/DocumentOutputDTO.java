@@ -10,9 +10,10 @@ import java.util.Map;
 public class DocumentOutputDTO extends QuestionServiceOutputDTO {
 	private final List<String> fileType;
 
-	public DocumentOutputDTO(String id, String title, QuestionType type, List<Map<String, String>> validations,
+	public DocumentOutputDTO(String id, String tenantId, String title, QuestionType type,
+			List<Map<String, String>> validations,
 			List<String> fileType) {
-		super(id, title, type, validations);
+		super(id, tenantId, title, type, validations);
 		this.fileType = fileType;
 	}
 

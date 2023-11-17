@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class QuestionnaireOutputDTO {
 	private final String id;
+	private final String tenantId;
 	private final String title;
 
 	@JsonFormat(pattern = CommonConstants.DATE_TIME_FORMAT)

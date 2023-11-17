@@ -22,13 +22,13 @@ public class DataLoader {
 	CommandLineRunner dataInitializer(QuestionnaireRepository questionnaireRepository) {
 		return args -> {
 			ObjectMapper mapper = new ObjectMapper();
-			TypeReference<Questionnaire> typeReference = new TypeReference<Questionnaire>() {
+			TypeReference<List<Questionnaire>> typeReference = new TypeReference<>() {
 			};
 
 			InputStream inputStream = TypeReference.class.getResourceAsStream("/questionnaire-data.json");
 
 			try {
-				Questionnaire questionnaireToSave = mapper.readValue(inputStream, typeReference);
+				List<Questionnaire> questionnairesToSave = mapper.readValue(inputStream, typeReference);
 
 				List<Questionnaire> existingQuestionnaire = questionnaireRepository.findAll();
 
@@ -37,11 +37,11 @@ public class DataLoader {
 					return;
 				}
 
-				questionnaireRepository.save(questionnaireToSave);
+				questionnaireRepository.saveAll(questionnairesToSave);
 
-				log.info("Questionnaire Saved");
+				log.info("Questionnaires Saved");
 			} catch (IOException e) {
-				log.error("Unable to save questionnaire");
+				log.error("Unable to save questionnaires");
 			}
 		};
 	}

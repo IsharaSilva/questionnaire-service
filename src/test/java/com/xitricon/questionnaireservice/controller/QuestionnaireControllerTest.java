@@ -37,26 +37,28 @@ class QuestionnaireControllerTest {
 	@Test
 	void addQuestionToQuestionnaire() {
 		String questionnaireId = "654c0048d7db1379df7e7e7e";
+		String tenantId = "T_1";
 		String pageId = "654c0048d7db1379df7e8e8e";
 		String questionId = "654c0048d7db1379df7e7f1e";
 		String title = "Single Answer type Question";
 		QuestionType questionType = QuestionType.SINGLE_ANSWER;
 
-		Question question = Question.builder().id(new ObjectId(questionId)).label(title)
+		Question question = Question.builder().id(new ObjectId(questionId)).tenantId(tenantId).label(title)
 				.type(QuestionType.SINGLE_ANSWER.toString()).group("").optionsSource(null).validations(null)
 				.editable(false).build();
 
 		QuestionnairePage questionnairePage = QuestionnairePage.builder().id(new ObjectId(pageId))
 				.title("Page Title 01").questions(List.of(question)).build();
 
-		QuestionnaireOutputDTO savedQuestionnaire = new QuestionnaireOutputDTO(questionnaireId, "Supplier Onboarding",
-				LocalDateTime.now(), LocalDateTime.now(), "System", "System", List.of(questionnairePage.viewAsDTO()));
+		QuestionnaireOutputDTO savedQuestionnaire = new QuestionnaireOutputDTO(questionnaireId, tenantId,
+				"Supplier Onboarding", LocalDateTime.now(), LocalDateTime.now(), "System", "System",
+				List.of(questionnairePage.viewAsDTO()));
 
-		doReturn(savedQuestionnaire).when(questionnaireService).addQuestionToQuestionnaire(questionnaireId, questionId,
-				pageId);
+		doReturn(savedQuestionnaire).when(questionnaireService).addQuestionToQuestionnaire(questionnaireId, tenantId,
+				questionId, pageId);
 
 		ResponseEntity<QuestionnaireOutputDTO> questionnaireOutputDTOResponseEntity = questionnaireController
-				.addQuestionToQuestionnaire(questionnaireId, questionId, pageId);
+				.addQuestionToQuestionnaire(questionnaireId, tenantId, questionId, pageId);
 
 		QuestionnaireOutputDTO body = questionnaireOutputDTOResponseEntity.getBody();
 		assertNotNull(body);
@@ -65,6 +67,7 @@ class QuestionnaireControllerTest {
 
 		assertNotNull(questionOutput);
 		assertEquals(questionOutput.getId(), questionId);
+		assertEquals(questionOutput.getTenantId(), tenantId);
 		assertEquals(questionOutput.getLabel(), title);
 		assertEquals(questionOutput.getType(), questionType.toString());
 	}

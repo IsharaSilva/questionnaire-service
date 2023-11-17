@@ -24,6 +24,7 @@ import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -69,23 +70,29 @@ class QuestionnaireServiceTest {
 	@Test
 	public void testAddQuestionToQuestionnaire() throws URISyntaxException, JsonProcessingException {
 		String questionnaireId = "654c0048d7db1379df7e7e7e";
+		String tenantId = "T_1";
 		String questionId = "654c0048d7db1379df7e7f1e";
 		String title = "Single Answer type Question";
 		QuestionType questionType = QuestionType.SINGLE_ANSWER;
 
-		Questionnaire questionnaireToBeSaved = getQuestionnaire(title, questionType, questionnaireId);
+		Questionnaire questionnaireToBeSaved = getQuestionnaire(title, questionType, questionnaireId, tenantId);
+		Optional<Questionnaire> savedQuestionnaire = Optional.ofNullable(questionnaireToBeSaved);
+
+		doReturn(savedQuestionnaire).when(questionnaireRepository).findByTenantIdAndId(tenantId, questionnaireId);
 		assertNotNull(questionnaireToBeSaved);
 		doReturn(questionnaireToBeSaved).when(questionnaireRepository).save(any());
 
-		QuestionServiceOutputDTO expectedQuestionOutput = new QuestionServiceOutputDTO(questionId, title, questionType,
-				new ArrayList<>());
+		QuestionServiceOutputDTO expectedQuestionOutput = new QuestionServiceOutputDTO(questionId, tenantId, title,
+				questionType, new ArrayList<>());
 
-		mockServer.expect(ExpectedCount.once(), requestTo(new URI(findQuestionUrl + questionId)))
-				.andExpect(method(HttpMethod.GET))
+		String getQuestionUri = UriComponentsBuilder.fromHttpUrl(findQuestionUrl).path(questionId)
+				.queryParam("tenantId", tenantId).build().toUriString();
+
+		mockServer.expect(ExpectedCount.once(), requestTo(new URI(getQuestionUri))).andExpect(method(HttpMethod.GET))
 				.andRespond(withStatus(HttpStatusCode.valueOf(HttpStatus.SC_OK)).contentType(MediaType.APPLICATION_JSON)
 						.body(mapper.writeValueAsString(expectedQuestionOutput)));
 
-		QuestionnaireOutputDTO questionnaireOutputDTO = questionnaireService.addQuestionToQuestionnaire(
+		QuestionnaireOutputDTO questionnaireOutputDTO = questionnaireService.addQuestionToQuestionnaire(tenantId,
 				questionnaireToBeSaved.getId(), questionId,
 				questionnaireToBeSaved.getPages().get(0).getId().toString());
 
@@ -94,6 +101,7 @@ class QuestionnaireServiceTest {
 
 		assertThat(savedQuestion, is(notNullValue()));
 		assertThat(savedQuestion.getId(), is(questionId));
+		assertThat(savedQuestion.getTenantId(), is(tenantId));
 		assertThat(savedQuestion.getLabel(), is(title));
 		assertThat(savedQuestion.getType(), is(questionType.toString()));
 	}
@@ -101,24 +109,30 @@ class QuestionnaireServiceTest {
 	@Test
 	public void testAddQuestionWithInvalidPageId() throws URISyntaxException, JsonProcessingException {
 		String questionnaireId = "654c0048d7db1379df7e7e7e";
+		String tenantId = "T_1";
 		String questionId = "654c0048d7db1379df7e7f1e";
 		String title = "Single Answer type Question";
 		QuestionType questionType = QuestionType.SINGLE_ANSWER;
 
-		Questionnaire questionnaireToBeSaved = getQuestionnaire(title, questionType, questionnaireId);
+		Questionnaire questionnaireToBeSaved = getQuestionnaire(title, questionType, questionnaireId, tenantId);
+		Optional<Questionnaire> savedQuestionnaire = Optional.ofNullable(questionnaireToBeSaved);
 
-		QuestionServiceOutputDTO expectedQuestionOutput = new QuestionServiceOutputDTO(questionId, title, questionType,
-				new ArrayList<>());
+		doReturn(savedQuestionnaire).when(questionnaireRepository).findByTenantIdAndId(tenantId, questionnaireId);
 
-		mockServer.expect(ExpectedCount.once(), requestTo(new URI(findQuestionUrl + questionId)))
-				.andExpect(method(HttpMethod.GET))
+		QuestionServiceOutputDTO expectedQuestionOutput = new QuestionServiceOutputDTO(questionId, tenantId, title,
+				questionType, new ArrayList<>());
+
+		String getQuestionUri = UriComponentsBuilder.fromHttpUrl(findQuestionUrl).path(questionId)
+				.queryParam("tenantId", tenantId).build().toUriString();
+
+		mockServer.expect(ExpectedCount.once(), requestTo(new URI(getQuestionUri))).andExpect(method(HttpMethod.GET))
 				.andRespond(withStatus(HttpStatusCode.valueOf(HttpStatus.SC_OK)).contentType(MediaType.APPLICATION_JSON)
 						.body(mapper.writeValueAsString(expectedQuestionOutput)));
 
 		assertNotNull(questionnaireToBeSaved);
 		ResourceNotFoundException resourceNotFoundException = assertThrows(ResourceNotFoundException.class,
-				() -> questionnaireService.addQuestionToQuestionnaire(questionnaireToBeSaved.getId(), questionId,
-						"invalidPageId"));
+				() -> questionnaireService.addQuestionToQuestionnaire(tenantId, questionnaireToBeSaved.getId(),
+						questionId, "invalidPageId"));
 
 		assertEquals("Page not found", resourceNotFoundException.getMessage());
 	}
@@ -126,32 +140,39 @@ class QuestionnaireServiceTest {
 	@Test
 	public void testAddQuestionWithInvalidQuestionId() throws URISyntaxException {
 		String questionnaireId = "654c0048d7db1379df7e7e7e";
+		String tenantId = "T_1";
 		String title = "Single Answer type Question";
 		QuestionType questionType = QuestionType.SINGLE_ANSWER;
 
-		Questionnaire questionnaireToBeSaved = getQuestionnaire(title, questionType, questionnaireId);
+		Questionnaire questionnaireToBeSaved = getQuestionnaire(title, questionType, questionnaireId, tenantId);
+		Optional<Questionnaire> savedQuestionnaire = Optional.ofNullable(questionnaireToBeSaved);
+
+		doReturn(savedQuestionnaire).when(questionnaireRepository).findByTenantIdAndId(tenantId, questionnaireId);
 
 		String invalidQuestionId = "invalidQuestionId";
 
-		mockServer.expect(ExpectedCount.once(), requestTo(new URI(findQuestionUrl + invalidQuestionId)))
-				.andExpect(method(HttpMethod.GET))
+		String getQuestionUri = UriComponentsBuilder.fromHttpUrl(findQuestionUrl).path(invalidQuestionId)
+				.queryParam("tenantId", tenantId).build().toUriString();
+
+		mockServer.expect(ExpectedCount.once(), requestTo(new URI(getQuestionUri))).andExpect(method(HttpMethod.GET))
 				.andRespond(withStatus(HttpStatusCode.valueOf(HttpStatus.SC_NOT_FOUND)).body("Question not found")
 						.contentType(MediaType.APPLICATION_JSON));
 
 		assertNotNull(questionnaireToBeSaved);
 		HttpClientErrorException resourceNotFoundException = assertThrows(HttpClientErrorException.class,
-				() -> questionnaireService.addQuestionToQuestionnaire(questionnaireToBeSaved.getId(), invalidQuestionId,
-						questionnaireToBeSaved.getPages().get(0).getId().toString()));
+				() -> questionnaireService.addQuestionToQuestionnaire(tenantId, questionnaireToBeSaved.getId(),
+						invalidQuestionId, questionnaireToBeSaved.getPages().get(0).getId().toString()));
 
 		assertEquals("404 Not Found: \"Question not found\"", resourceNotFoundException.getMessage());
 	}
 
-	private Questionnaire getQuestionnaire(String title, QuestionType questionType, String questionnaireId) {
+	private Questionnaire getQuestionnaire(String title, QuestionType questionType, String questionnaireId,
+			String tenantId) {
 		Question existingQuestion = Question.builder().label("Label 01").type(QuestionType.SINGLE_ANSWER.toString())
 				.group("").optionsSource(null).validations(null).editable(false).build();
 
-		Question questionToBeAdded = Question.builder().label(title).type(questionType.toString()).optionsSource(null)
-				.validations(null).editable(true).build();
+		Question questionToBeAdded = Question.builder().tenantId(tenantId).label(title).type(questionType.toString())
+				.optionsSource(null).validations(null).editable(true).build();
 
 		ArrayList<Question> questions = new ArrayList<>();
 		questions.add(existingQuestion);
@@ -163,12 +184,6 @@ class QuestionnaireServiceTest {
 		ArrayList<QuestionnairePage> pages = new ArrayList<>();
 		pages.add(questionnairePage);
 
-		Questionnaire questionnaireToBeSaved = Questionnaire.builder().id(questionnaireId).title("Title 01")
-				.pages(pages).build();
-
-		Optional<Questionnaire> savedQuestionnaire = Optional.ofNullable(questionnaireToBeSaved);
-
-		doReturn(savedQuestionnaire).when(questionnaireRepository).findById(questionnaireId);
-		return questionnaireToBeSaved;
+		return Questionnaire.builder().id(questionnaireId).tenantId(tenantId).title("Title 01").pages(pages).build();
 	}
 }

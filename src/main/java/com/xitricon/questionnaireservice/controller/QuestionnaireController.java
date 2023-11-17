@@ -22,14 +22,15 @@ public class QuestionnaireController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<QuestionnaireOutputDTO> getQuestionnaireById(@PathVariable String id) {
-		return ResponseEntity.ok(questionnaireService.getQuestionairesById(id));
+	public ResponseEntity<QuestionnaireOutputDTO> getQuestionnaireById(@RequestParam String tenantId,
+			@PathVariable String id) {
+		return ResponseEntity.ok(questionnaireService.getQuestionairesById(tenantId, id));
 	}
 
 	@PostMapping
-	public ResponseEntity<QuestionnaireOutputDTO> addQuestionToQuestionnaire(@RequestParam String questionnaireId,
+	public ResponseEntity<QuestionnaireOutputDTO> addQuestionToQuestionnaire(@RequestParam String tenantId,@RequestParam String questionnaireId,
 			@RequestParam String questionId, @RequestParam String pageId) {
-		return ResponseEntity.ok(questionnaireService.addQuestionToQuestionnaire(questionnaireId, questionId, pageId));
+		return ResponseEntity.ok(questionnaireService.addQuestionToQuestionnaire(tenantId, questionnaireId, questionId, pageId));
 	}
 
 }

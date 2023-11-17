@@ -13,6 +13,7 @@ import com.xitricon.questionnaireservice.common.exception.ResourceNotFoundExcept
 import com.xitricon.questionnaireservice.model.Questionnaire;
 import com.xitricon.questionnaireservice.repository.QuestionnaireRepository;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -35,13 +36,14 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 	}
 
 	@Override
-	public QuestionnaireOutputDTO getQuestionairesById(String id) {
-		return getQuestionnaire(id).viewAsDTO();
+	public QuestionnaireOutputDTO getQuestionairesById(String tenantId, String id) {
+		return getQuestionnaire(tenantId, id).viewAsDTO();
 	}
 
 	@Override
-	public QuestionnaireOutputDTO addQuestionToQuestionnaire(String questionnaireId, String questionId, String pageId) {
-		Questionnaire questionnaire = getQuestionnaire(questionnaireId);
+	public QuestionnaireOutputDTO addQuestionToQuestionnaire(String tenantId, String questionnaireId, String questionId,
+			String pageId) {
+		Questionnaire questionnaire = getQuestionnaire(tenantId, questionnaireId);
 
 		List<QuestionnairePage> pages = questionnaire.getPages();
 		QuestionnairePage page = pages.stream()
@@ -54,14 +56,17 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 		int questionIdxToBeSaved = questions.stream().max(Comparator.comparing(Question::getIndex))
 				.map(question -> question.getIndex() + 1).orElse(0);
 
+		String getQuestionUri = UriComponentsBuilder.fromHttpUrl(questionServiceUrl).path(questionId)
+				.queryParam("tenantId", tenantId).build().toUriString();
+
 		QuestionServiceOutputDTO questionServiceOutputDTO = Optional
-				.ofNullable(restTemplate.getForObject(questionServiceUrl + questionId, QuestionServiceOutputDTO.class))
+				.ofNullable(restTemplate.getForObject(getQuestionUri, QuestionServiceOutputDTO.class))
 				.orElseThrow(() -> new ResourceNotFoundException("Question not found"));
 
 		Question questionEntity = Question.builder().id(new ObjectId(questionServiceOutputDTO.getId()))
-				.index(questionIdxToBeSaved).label(questionServiceOutputDTO.getTitle())
-				.type(questionServiceOutputDTO.getType().toString()).group("")
-				.validations(List.of(QuestionValidation.builder().required(true).build())).editable(true)
+				.tenantId(questionServiceOutputDTO.getTenantId()).index(questionIdxToBeSaved)
+				.label(questionServiceOutputDTO.getTitle()).type(questionServiceOutputDTO.getType().toString())
+				.group("").validations(List.of(QuestionValidation.builder().required(true).build())).editable(true)
 				.optionsSource(null).subQuestions(new ArrayList<>()).build();
 		questions.add(questionEntity);
 
@@ -69,15 +74,15 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 				.title(page.getTitle()).index(page.getIndex()).build();
 		pages.set(pageIdx, pageToBeSaved);
 
-		Questionnaire questionnaireToBeSaved = Questionnaire.builder().id(questionnaire.getId())
+		Questionnaire questionnaireToBeSaved = Questionnaire.builder().id(questionnaire.getId()).tenantId(tenantId)
 				.title(questionnaire.getTitle()).pages(pages).createdBy(questionnaire.getCreatedBy())
 				.createdAt(questionnaire.getCreatedAt()).build();
 
 		return questionnaireRepository.save(questionnaireToBeSaved).viewAsDTO();
 	}
 
-	private Questionnaire getQuestionnaire(String id) {
-		return questionnaireRepository.findById(id)
+	private Questionnaire getQuestionnaire(String tenantId, String id) {
+		return questionnaireRepository.findByTenantIdAndId(tenantId, id)
 				.orElseThrow(() -> new ResourceNotFoundException("Questionnaire not found"));
 	}
 }

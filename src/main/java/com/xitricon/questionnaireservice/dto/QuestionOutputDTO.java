@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class QuestionOutputDTO {
 	private final String id;
+	private final String tenantId;
 	private final int index;
 	private final String label;
 	private final String type;

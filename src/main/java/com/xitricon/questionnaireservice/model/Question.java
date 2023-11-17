@@ -24,6 +24,7 @@ public class Question {
 	@Builder.Default
 	private ObjectId id = new ObjectId();
 
+	private String tenantId;
 	private int index;
 	private String label;
 	private String type;
@@ -44,7 +45,7 @@ public class Question {
 			}
 		}
 
-		return new QuestionOutputDTO(this.id.toString(), this.index, this.label, this.type, this.group,
+		return new QuestionOutputDTO(this.id.toString(), this.tenantId, this.index, this.label, this.type, this.group,
 
 				(Objects.nonNull(this.validations)
 						? this.validations.stream().map(QuestionValidation::viewAsDTO).collect(Collectors.toList())
