@@ -39,13 +39,13 @@ class QuestionnaireQuestionControllerTest {
 	private int port;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		RestAssured.baseURI = "http://localhost";
 		RestAssured.port = port;
 	}
 
 	@AfterEach
-	public void cleanUp() {
+	void cleanUp() {
 		this.questionnaireV2Repository.deleteAll();
 	}
 

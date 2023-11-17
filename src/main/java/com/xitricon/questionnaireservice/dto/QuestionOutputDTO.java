@@ -17,5 +17,4 @@ public class QuestionOutputDTO {
 	private final boolean editable;
 	private final Object optionsSource;
 	private final List<QuestionOutputDTO> subQuestions;
-
 }
