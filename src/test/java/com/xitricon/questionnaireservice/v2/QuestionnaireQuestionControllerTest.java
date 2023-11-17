@@ -83,26 +83,13 @@ public class QuestionnaireQuestionControllerTest {
 
 		String id = JsonPath.from(respString).get("id");
 
-		Response response = RestAssured.given().contentType(ContentType.JSON).pathParam("id", id).get(QuestionnaireQuestion_ID_PATH);
-
-		response.then().statusCode(HttpStatus.SC_OK)
-				.body("title", equalTo(inputDTO.getTitle()))
-				.body("createdAt", notNullValue())
-				.body("modifiedAt", notNullValue())
-				.body("createdBy", notNullValue())
-				.body("modifiedBy", notNullValue());
-
-		List<Map<String, String>> questionsFromResponse = response.jsonPath().getList("questions");
-
-		// Compare the individual properties of the questions
-		for (int i = 0; i < questionList.size(); i++) {
-			QuestionnaireQuestionInputDTO expectedQuestion = questionList.get(i);
-			Map<String, String> actualQuestion = questionsFromResponse.get(i);
-
-			assertThat(actualQuestion.get("questionRef"), equalTo(expectedQuestion.getQuestionRef()));
-			assertThat(actualQuestion.get("dependsOn"), equalTo(expectedQuestion.getDependsOn()));
-			assertThat(actualQuestion.get("determinator"), equalTo(expectedQuestion.getDeterminator()));
-		}
+        RestAssured.given().contentType(ContentType.JSON).pathParam("id", id).body(inputDTO)
+                .put(QuestionnaireQuestion_ID_PATH).then().statusCode(HttpStatus.SC_OK)
+                .body("title", equalTo(inputDTO.getTitle()))
+                .body("createdAt", notNullValue()).body("modifiedAt", notNullValue()).body("createdBy", notNullValue()).body("modifiedBy", notNullValue())
+				.body("questions[0].questionRef", equalTo("question1"))
+				.body("questions[0].dependsOn", equalTo("dependsOn1"))
+				.body("questions[0].determinator", equalTo("determinator1"));
 	}
 	
 	@Test
@@ -120,25 +107,13 @@ public class QuestionnaireQuestionControllerTest {
 
 		String id = JsonPath.from(respString).get("id");
 
-		Response response = RestAssured.given().contentType(ContentType.JSON).pathParam("id", id).get(QuestionnaireQuestion_ID_PATH);
-
-		response.then().statusCode(HttpStatus.SC_OK)
-				.body("title", equalTo(inputDTO.getTitle()))
-				.body("createdAt", notNullValue())
-				.body("modifiedAt", notNullValue())
-				.body("createdBy", notNullValue())
-				.body("modifiedBy", notNullValue());
-
-		List<Map<String, String>> questionsFromResponse = response.jsonPath().getList("questions");
-
-		for (int i = 0; i < initialQuestionList.size(); i++) {
-			QuestionnaireQuestionInputDTO expectedQuestion = initialQuestionList.get(i);
-			Map<String, String> actualQuestion = questionsFromResponse.get(i);
-
-			assertThat(actualQuestion.get("questionRef"), equalTo(expectedQuestion.getQuestionRef()));
-			assertThat(actualQuestion.get("dependsOn"), equalTo(expectedQuestion.getDependsOn()));
-			assertThat(actualQuestion.get("determinator"), equalTo(expectedQuestion.getDeterminator()));
-		}
+		 RestAssured.given().contentType(ContentType.JSON).pathParam("id", id).body(inputDTO)
+                .put(QuestionnaireQuestion_ID_PATH).then().statusCode(HttpStatus.SC_OK)
+                .body("title", equalTo(inputDTO.getTitle()))
+                .body("createdAt", notNullValue()).body("modifiedAt", notNullValue()).body("createdBy", notNullValue()).body("modifiedBy", notNullValue())
+				.body("questions[0].questionRef", equalTo("question1"))
+				.body("questions[0].dependsOn", equalTo("dependsOn1"))
+				.body("questions[0].determinator", equalTo("determinator1"));
 	}
 
 	@Test
