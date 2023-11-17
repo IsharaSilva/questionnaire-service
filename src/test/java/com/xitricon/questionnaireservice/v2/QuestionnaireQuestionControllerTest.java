@@ -80,8 +80,8 @@ class QuestionnaireQuestionControllerTest {
 
 		String id = JsonPath.from(respString).get("id");
 
-		RestAssured.given().contentType(ContentType.JSON).pathParam("id", id).queryParam("tenantId", tenantId).body(inputDTO)
-				.put(QuestionnaireQuestion_ID_PATH).then().statusCode(HttpStatus.SC_OK)
+		RestAssured.given().contentType(ContentType.JSON).pathParam("id", id).queryParam("tenantId", tenantId)
+				.body(inputDTO).put(QuestionnaireQuestion_ID_PATH).then().statusCode(HttpStatus.SC_OK)
 				.body("title", equalTo(inputDTO.getTitle())).body("createdAt", notNullValue())
 				.body("modifiedAt", notNullValue()).body("createdBy", notNullValue()).body("modifiedBy", notNullValue())
 				.body("questions[0].questionRef", equalTo("question1"))
@@ -105,8 +105,8 @@ class QuestionnaireQuestionControllerTest {
 
 		String id = JsonPath.from(respString).get("id");
 
-		RestAssured.given().contentType(ContentType.JSON).pathParam("id", id).queryParam("tenantId", tenantId).body(inputDTO)
-				.put(QuestionnaireQuestion_ID_PATH).then().statusCode(HttpStatus.SC_OK)
+		RestAssured.given().contentType(ContentType.JSON).pathParam("id", id).queryParam("tenantId", tenantId)
+				.body(inputDTO).put(QuestionnaireQuestion_ID_PATH).then().statusCode(HttpStatus.SC_OK)
 				.body("title", equalTo(inputDTO.getTitle())).body("createdAt", notNullValue())
 				.body("modifiedAt", notNullValue()).body("createdBy", notNullValue()).body("modifiedBy", notNullValue())
 				.body("questions[0].questionRef", equalTo("question1"))
@@ -116,8 +116,8 @@ class QuestionnaireQuestionControllerTest {
 
 	@Test
 	void testGetQuestionnaireByIdNotFound() {
-		given().contentType(ContentType.JSON).queryParam("tenantId", tenantId).when().get(QuestionnaireQuestion_ID_PATH, "1").then()
-				.statusCode(HttpStatus.SC_NOT_FOUND);
+		given().contentType(ContentType.JSON).queryParam("tenantId", tenantId).when()
+				.get(QuestionnaireQuestion_ID_PATH, "1").then().statusCode(HttpStatus.SC_NOT_FOUND);
 	}
 
 	@Test
@@ -149,8 +149,8 @@ class QuestionnaireQuestionControllerTest {
 		QuestionnaireQuestionUpdateInputDTO updateDTO = new QuestionnaireQuestionUpdateInputDTO(
 				Arrays.asList("question3", "question4"), Arrays.asList("question1", "question2"));
 
-		RestAssured.given().contentType(ContentType.JSON).pathParam("id", id).queryParam("tenantId", tenantId).body(updateDTO)
-				.put(QuestionnaireQuestion_ID_PATH + "/questions").then().statusCode(HttpStatus.SC_OK)
+		RestAssured.given().contentType(ContentType.JSON).pathParam("id", id).queryParam("tenantId", tenantId)
+				.body(updateDTO).put(QuestionnaireQuestion_ID_PATH + "/questions").then().statusCode(HttpStatus.SC_OK)
 				.body("questions.size()", equalTo(4));
 	}
 
