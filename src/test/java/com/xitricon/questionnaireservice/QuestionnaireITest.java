@@ -48,9 +48,11 @@ public class QuestionnaireITest {
 
 		Questionnaire savedQuestionnaire = questionnaireRepository.findAll().get(0);
 
-		RestAssured.given().contentType(ContentType.JSON).pathParam("id", savedQuestionnaire.getId())
-				.get(QUESTIONNAIRE_RESOURCE).then().statusCode(HttpStatus.SC_OK)
-				.body("id", equalTo(savedQuestionnaire.getId())).body("title", equalTo(savedQuestionnaire.getTitle()))
+		RestAssured.given().contentType(ContentType.JSON).queryParam("tenantId", savedQuestionnaire.getTenantId())
+				.pathParam("id", savedQuestionnaire.getId()).get(QUESTIONNAIRE_RESOURCE).then()
+				.statusCode(HttpStatus.SC_OK).body("id", equalTo(savedQuestionnaire.getId()))
+				.body("tenantId", equalTo(savedQuestionnaire.getTenantId()))
+				.body("title", equalTo(savedQuestionnaire.getTitle()))
 				.body("createdAt",
 						equalTo(savedQuestionnaire.getCreatedAt()
 								.format(DateTimeFormatter.ofPattern(TestConstants.DATE_TIME_FORMAT))))
@@ -66,6 +68,8 @@ public class QuestionnaireITest {
 				.body("pages[0].questions.size()", equalTo(savedQuestionnaire.getPages().get(0).getQuestions().size()))
 				.body("pages[0].questions[0].id",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(0).getId().toString()))
+				.body("pages[0].questions[0].tenantId",
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(0).getTenantId()))
 				.body("pages[0].questions[0].index",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(0).getIndex()))
 				.body("pages[0].questions[0].label",
@@ -83,6 +87,8 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[0].subQuestions", notNullValue())
 				.body("pages[0].questions[1].id",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(1).getId().toString()))
+				.body("pages[0].questions[1].tenantId",
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(1).getTenantId()))
 				.body("pages[0].questions[1].index",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(1).getIndex()))
 				.body("pages[0].questions[1].label",
@@ -100,6 +106,8 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[1].subQuestions", notNullValue())
 				.body("pages[0].questions[2].id",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(2).getId().toString()))
+				.body("pages[0].questions[2].tenantId",
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(2).getTenantId()))
 				.body("pages[0].questions[2].index",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(2).getIndex()))
 				.body("pages[0].questions[2].label",
@@ -117,6 +125,8 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[2].subQuestions", notNullValue())
 				.body("pages[0].questions[3].id",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(3).getId().toString()))
+				.body("pages[0].questions[3].tenantId",
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(3).getTenantId()))
 				.body("pages[0].questions[3].index",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(3).getIndex()))
 				.body("pages[0].questions[3].label",
@@ -134,6 +144,8 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[3].subQuestions", notNullValue())
 				.body("pages[0].questions[4].id",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(4).getId().toString()))
+				.body("pages[0].questions[4].tenantId",
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(4).getTenantId()))
 				.body("pages[0].questions[4].index",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(4).getIndex()))
 				.body("pages[0].questions[4].label",
@@ -151,6 +163,8 @@ public class QuestionnaireITest {
 				.body("pages[0].questions[4].subQuestions", notNullValue())
 				.body("pages[0].questions[5].id",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(5).getId().toString()))
+				.body("pages[0].questions[5].tenantId",
+						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(5).getTenantId()))
 				.body("pages[0].questions[5].index",
 						equalTo(savedQuestionnaire.getPages().get(0).getQuestions().get(5).getIndex()))
 				.body("pages[0].questions[5].label",
@@ -173,6 +187,8 @@ public class QuestionnaireITest {
 				.body("pages[1].questions.size()", equalTo(savedQuestionnaire.getPages().get(1).getQuestions().size()))
 				.body("pages[1].questions[0].id",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(0).getId().toString()))
+				.body("pages[1].questions[0].tenantId",
+						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(0).getTenantId()))
 				.body("pages[1].questions[0].index",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(0).getIndex()))
 				.body("pages[1].questions[0].label",
@@ -190,6 +206,8 @@ public class QuestionnaireITest {
 				.body("pages[1].questions[0].subQuestions", notNullValue())
 				.body("pages[1].questions[1].id",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(1).getId().toString()))
+				.body("pages[1].questions[1].tenantId",
+						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(1).getTenantId()))
 				.body("pages[1].questions[1].index",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(1).getIndex()))
 				.body("pages[1].questions[1].label",
@@ -207,6 +225,8 @@ public class QuestionnaireITest {
 				.body("pages[1].questions[1].subQuestions", notNullValue())
 				.body("pages[1].questions[2].id",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(2).getId().toString()))
+				.body("pages[1].questions[2].tenantId",
+						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(2).getTenantId()))
 				.body("pages[1].questions[2].index",
 						equalTo(savedQuestionnaire.getPages().get(1).getQuestions().get(2).getIndex()))
 				.body("pages[1].questions[2].label",
@@ -229,6 +249,8 @@ public class QuestionnaireITest {
 				.body("pages[2].questions.size()", equalTo(savedQuestionnaire.getPages().get(2).getQuestions().size()))
 				.body("pages[2].questions[0].id",
 						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(0).getId().toString()))
+				.body("pages[2].questions[0].tenantId",
+						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(0).getTenantId()))
 				.body("pages[2].questions[0].index",
 						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(0).getIndex()))
 				.body("pages[2].questions[0].label",
@@ -246,6 +268,8 @@ public class QuestionnaireITest {
 				.body("pages[2].questions[0].subQuestions", notNullValue())
 				.body("pages[2].questions[1].id",
 						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(1).getId().toString()))
+				.body("pages[2].questions[1].tenantId",
+						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(1).getTenantId()))
 				.body("pages[2].questions[1].index",
 						equalTo(savedQuestionnaire.getPages().get(2).getQuestions().get(1).getIndex()))
 				.body("pages[2].questions[1].label",
@@ -268,6 +292,8 @@ public class QuestionnaireITest {
 				.body("pages[3].questions.size()", equalTo(savedQuestionnaire.getPages().get(3).getQuestions().size()))
 				.body("pages[3].questions[0].id",
 						equalTo(savedQuestionnaire.getPages().get(3).getQuestions().get(0).getId().toString()))
+				.body("pages[3].questions[0].tenantId",
+						equalTo(savedQuestionnaire.getPages().get(3).getQuestions().get(0).getTenantId()))
 				.body("pages[3].questions[0].index",
 						equalTo(savedQuestionnaire.getPages().get(3).getQuestions().get(0).getIndex()))
 				.body("pages[3].questions[0].label",
@@ -290,6 +316,8 @@ public class QuestionnaireITest {
 				.body("pages[4].questions.size()", equalTo(savedQuestionnaire.getPages().get(4).getQuestions().size()))
 				.body("pages[4].questions[0].id",
 						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getId().toString()))
+				.body("pages[4].questions[0].tenantId",
+						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getTenantId()))
 				.body("pages[4].questions[0].index",
 						equalTo(savedQuestionnaire.getPages().get(4).getQuestions().get(0).getIndex()))
 				.body("pages[4].questions[0].label",
@@ -311,8 +339,8 @@ public class QuestionnaireITest {
 	@Test
 	public void testGetQuestionnaireByNonExistingId() {
 
-		RestAssured.given().contentType(ContentType.JSON).pathParam("id", "test").get(QUESTIONNAIRE_RESOURCE).then()
-				.statusCode(HttpStatus.SC_NOT_FOUND);
+		RestAssured.given().contentType(ContentType.JSON).queryParam("tenantId", "test").pathParam("id", "test")
+				.get(QUESTIONNAIRE_RESOURCE).then().statusCode(HttpStatus.SC_NOT_FOUND);
 	}
 
 }

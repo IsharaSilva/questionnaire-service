@@ -24,14 +24,16 @@ public class Questionnaire extends Auditable<String> {
 	@Id
 	private String id;
 
+	private String tenantId;
+
 	private String title;
 
 	private List<QuestionnairePage> pages;
 
 	@JsonIgnore
 	public QuestionnaireOutputDTO viewAsDTO() {
-		return new QuestionnaireOutputDTO(this.id.toString(), this.title, this.createdAt, this.modifiedAt,
-				this.createdBy, this.modifiedBy,
+		return new QuestionnaireOutputDTO(this.id, this.tenantId, this.title, this.createdAt,
+				this.modifiedAt, this.createdBy, this.modifiedBy,
 				this.pages.stream().map(QuestionnairePage::viewAsDTO).collect(Collectors.toList()));
 	}
 

@@ -13,9 +13,10 @@ public class SelectionOutputDTO extends QuestionServiceOutputDTO {
 	private final OptionsSource optionsSource;
 	private final boolean multiple;
 
-	public SelectionOutputDTO(String id, String title, QuestionType type, List<Map<String, String>> validations,
+	public SelectionOutputDTO(String id, String tenantId, String title, QuestionType type,
+			List<Map<String, String>> validations,
 			OptionsSource optionsSource, boolean multiple) {
-		super(id, title, type, validations);
+		super(id, tenantId, title, type, validations);
 		this.optionsSource = optionsSource;
 		this.multiple = multiple;
 	}
