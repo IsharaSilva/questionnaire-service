@@ -32,7 +32,7 @@ class QuestionnaireQuestionControllerTest {
 	private static final String QuestionnaireQuestion_PATH = "/api/v2/questionnaires";
 	private static final String QuestionnaireQuestion_ID_PATH = "/api/v2/questionnaires/{id}";
 
-	private final String tenantId = "001";
+	private final String tenantId = "T_1";
 
 	@Autowired
 	QuestionnaireV2Repository questionnaireV2Repository;
