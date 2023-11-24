@@ -26,8 +26,8 @@ spec:
            - name: MONGO_HOST
              value: ec2-44-202-113-51.compute-1.amazonaws.com
            - name: MONGO_USERNAME
-             value: navuliamongou
+             value: serviceuser
            - name: MONGO_PASSWORD
-             value: mongoA123UIy78
+             value: serviceUI673BGH
            - name: SPRING_PROFILES_ACTIVE
              value: dev
