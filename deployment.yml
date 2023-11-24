@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: questionnaire-service
+  name: questionnaire-service-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: questionnaire-service
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: questionnaire-service
+    spec:
+      containers:
+        - image: 411194283529.dkr.ecr.us-east-1.amazonaws.com/questionnaire-service:1.0.0
+          name: questionnaire-service
+          ports:
+            - containerPort: 8080
+          resources: {}
+          imagePullPolicy: Always
+          env:
+           - name: MONGO_HOST
+             value: ec2-44-202-113-51.compute-1.amazonaws.com
+           - name: MONGO_USERNAME
+             value: navuliamongou
+           - name: MONGO_PASSWORD
+             value: mongoA123UIy78
+           - name: SPRING_PROFILES_ACTIVE
+             value: dev
