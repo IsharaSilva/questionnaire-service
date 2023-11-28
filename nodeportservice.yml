@@ -5,7 +5,7 @@ metadata:
   labels:
    app: questionnaire-service
   annotations:
-    alb.ingress.kubernetes.io/healthcheck-path: /questionnaire/actuator/health
+    alb.ingress.kubernetes.io/healthcheck-path: /actuator/health
 spec:
   selector:
     app: questionnaire-service

@@ -5,7 +5,7 @@ metadata:
   labels:
    app: navulia
   annotations:
-   kubernetes.io/ingress.class: alb
+#   kubernetes.io/ingress.class: alb
    alb.ingress.kubernetes.io/scheme: internet-facing
    alb.ingress.kubernetes.io/target-type: instance
    alb.ingress.kubernetes.io/tags: Environment=dev, Product=Navulia
@@ -16,16 +16,19 @@ metadata:
    alb.ingress.kubernetes.io/success-codes: '200'
    alb.ingress.kubernetes.io/healthy-threshold-count: '2'
    alb.ingress.kubernetes.io/unhealthy-threshold-count: '2'
+   nginx.ingress.kubernetes.io/use-regex: "true"
+   nginx.ingress.kubernetes.io/rewrite-target: /$2
 #   alb.ingress.kubernetes.io/certificate-arn: internet-facing
 #   alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443},{"HTTP":80}]'
 #   alb.ingress.kubernetes.io/ssl-direct: '443'
 spec:
+  ingressClassName: "alb-ingress-class"
   rules:
    - host: devapi.navulia.cloud
      http:
       paths:
-       - path: /questionnaire
-         pathType: Prefix
+       - path: /questionnaire(/|$)(.*)
+         pathType: ImplementationSpecific
          backend:
           service:
            name: questionnaire-nodeport-service
