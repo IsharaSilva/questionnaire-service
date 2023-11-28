@@ -16,6 +16,7 @@ metadata:
    alb.ingress.kubernetes.io/success-codes: '200'
    alb.ingress.kubernetes.io/healthy-threshold-count: '2'
    alb.ingress.kubernetes.io/unhealthy-threshold-count: '2'
+   alb.ingress.kubernetes.io/rewrite-target: /${2}
 #   alb.ingress.kubernetes.io/certificate-arn: internet-facing
 #   alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443},{"HTTP":80}]'
 #   alb.ingress.kubernetes.io/ssl-direct: '443'
@@ -25,7 +26,7 @@ spec:
    - host: devapi.navulia.cloud
      http:
       paths:
-       - path: /questionnaire
+       - path: /questionnaire(/|$)(.*)
          pathType: Prefix
          backend:
           service:
