@@ -24,7 +24,7 @@ spec:
           imagePullPolicy: Always
           env:
            - name: MONGO_HOST
-             value: ec2-18-233-148-42.compute-1.amazonaws.com
+             value: nv-nonprod-mongodb.navulia.cloud
            - name: MONGO_USERNAME
              value: serviceuser
            - name: MONGO_PASSWORD
