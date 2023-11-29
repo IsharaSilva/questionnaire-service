@@ -53,3 +53,13 @@ spec:
            name: question-nodeport-service
            port:
             number: 80
+   - host: nv-dev-workflow-service.navulia.cloud
+     http:
+      paths:
+       - path: /
+         pathType: Prefix
+         backend:
+          service:
+           name: workflow-nodeport-service
+           port:
+            number: 80
