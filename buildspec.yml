@@ -3,6 +3,15 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - echo Installing app dependencies...
+      - curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.3/2023-11-14/bin/linux/arm64/kubectl
+      - curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.28.3/2023-11-14/bin/linux/arm64/kubectl.sha256
+      - sha256sum -c kubectl.sha256
+      - openssl sha1 -sha256 kubectl
+      - chmod +x ./kubectl
+      - mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
+      - echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+      - kubectl version --client
       - echo Setting up code artifact envs...
       - CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain xitricon --domain-owner 411194283529 --query authorizationToken --output text`
       - AWS_USERNAME=Amila
@@ -26,6 +35,8 @@ phases:
       - echo Tagging and Pushing the Docker image to ECR
       - docker tag questionnaire-service:${COMMIT_HASH} 411194283529.dkr.ecr.us-east-1.amazonaws.com/questionnaire-service:${COMMIT_HASH}
       - docker push 411194283529.dkr.ecr.us-east-1.amazonaws.com/questionnaire-service:${COMMIT_HASH}
+      - kubectl delete deployment questionnaire-service-deploy -n dev # this will be a temporary fix
+      - kubectl apply -f deployment.yml
 artifacts:
   files:
     - '**/*'
