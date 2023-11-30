@@ -18,6 +18,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws --version
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 411194283529.dkr.ecr.us-east-1.amazonaws.com
+      - aws eks update-kubeconfig --region us-east-1 --name nv-non-prod-cluster  #--role-arn 'arn:aws:iam::411194283529:role/codebuild-arm-role'
 #      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - COMMIT_HASH=1.0.0
   build:
