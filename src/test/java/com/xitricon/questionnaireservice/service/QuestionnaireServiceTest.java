@@ -1,16 +1,22 @@
 package com.xitricon.questionnaireservice.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xitricon.questionnaireservice.common.exception.ResourceNotFoundException;
-import com.xitricon.questionnaireservice.dto.QuestionOutputDTO;
-import com.xitricon.questionnaireservice.dto.QuestionServiceOutputDTO;
-import com.xitricon.questionnaireservice.dto.QuestionnaireOutputDTO;
-import com.xitricon.questionnaireservice.model.Question;
-import com.xitricon.questionnaireservice.model.Questionnaire;
-import com.xitricon.questionnaireservice.model.QuestionnairePage;
-import com.xitricon.questionnaireservice.model.enums.QuestionType;
-import com.xitricon.questionnaireservice.repository.QuestionnaireRepository;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Optional;
+
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,22 +32,17 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Optional;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xitricon.questionnaireservice.common.exception.ResourceNotFoundException;
+import com.xitricon.questionnaireservice.dto.QuestionOutputDTO;
+import com.xitricon.questionnaireservice.dto.QuestionServiceOutputDTO;
+import com.xitricon.questionnaireservice.dto.QuestionnaireOutputDTO;
+import com.xitricon.questionnaireservice.model.Question;
+import com.xitricon.questionnaireservice.model.Questionnaire;
+import com.xitricon.questionnaireservice.model.QuestionnairePage;
+import com.xitricon.questionnaireservice.model.enums.QuestionType;
+import com.xitricon.questionnaireservice.repository.QuestionnaireRepository;
 
 class QuestionnaireServiceTest {
 
@@ -67,8 +68,9 @@ class QuestionnaireServiceTest {
 	public void cleanUp() {
 		this.questionnaireRepository.deleteAll();
 	}
+
 	@Test
-	public void testAddQuestionToQuestionnaire() throws URISyntaxException, JsonProcessingException {
+	void testAddQuestionToQuestionnaire() throws URISyntaxException, JsonProcessingException {
 		String questionnaireId = "654c0048d7db1379df7e7e7e";
 		String tenantId = "T_1";
 		String questionId = "654c0048d7db1379df7e7f1e";
@@ -107,7 +109,7 @@ class QuestionnaireServiceTest {
 	}
 
 	@Test
-	public void testAddQuestionWithInvalidPageId() throws URISyntaxException, JsonProcessingException {
+	void testAddQuestionWithInvalidPageId() throws URISyntaxException, JsonProcessingException {
 		String questionnaireId = "654c0048d7db1379df7e7e7e";
 		String tenantId = "T_1";
 		String questionId = "654c0048d7db1379df7e7f1e";
@@ -130,15 +132,15 @@ class QuestionnaireServiceTest {
 						.body(mapper.writeValueAsString(expectedQuestionOutput)));
 
 		assertNotNull(questionnaireToBeSaved);
+		String id = questionnaireToBeSaved.getId();
 		ResourceNotFoundException resourceNotFoundException = assertThrows(ResourceNotFoundException.class,
-				() -> questionnaireService.addQuestionToQuestionnaire(tenantId, questionnaireToBeSaved.getId(),
-						questionId, "invalidPageId"));
+				() -> questionnaireService.addQuestionToQuestionnaire(tenantId, id, questionId, "invalidPageId"));
 
 		assertEquals("Page not found", resourceNotFoundException.getMessage());
 	}
 
 	@Test
-	public void testAddQuestionWithInvalidQuestionId() throws URISyntaxException {
+	void testAddQuestionWithInvalidQuestionId() throws URISyntaxException {
 		String questionnaireId = "654c0048d7db1379df7e7e7e";
 		String tenantId = "T_1";
 		String title = "Single Answer type Question";
@@ -159,9 +161,10 @@ class QuestionnaireServiceTest {
 						.contentType(MediaType.APPLICATION_JSON));
 
 		assertNotNull(questionnaireToBeSaved);
+		String id = questionnaireToBeSaved.getId();
+		String pageId = questionnaireToBeSaved.getPages().get(0).getId().toString();
 		HttpClientErrorException resourceNotFoundException = assertThrows(HttpClientErrorException.class,
-				() -> questionnaireService.addQuestionToQuestionnaire(tenantId, questionnaireToBeSaved.getId(),
-						invalidQuestionId, questionnaireToBeSaved.getPages().get(0).getId().toString()));
+				() -> questionnaireService.addQuestionToQuestionnaire(tenantId, id, invalidQuestionId, pageId));
 
 		assertEquals("404 Not Found: \"Question not found\"", resourceNotFoundException.getMessage());
 	}

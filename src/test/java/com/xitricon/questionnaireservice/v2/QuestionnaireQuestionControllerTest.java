@@ -214,7 +214,7 @@ class QuestionnaireQuestionControllerTest {
 	}
 
 	@Test
-	public void testGetQuestionnaireByIdBadRequest() {
+	void testGetQuestionnaireByIdBadRequest() {
 		given().contentType(ContentType.JSON).queryParam("tenantId", tenantId).when()
 				.get(QuestionnaireQuestion_ID_PATH, "1").then().statusCode(HttpStatus.SC_NOT_FOUND);
 	}

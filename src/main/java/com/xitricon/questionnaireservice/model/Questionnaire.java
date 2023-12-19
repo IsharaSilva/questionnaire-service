@@ -1,7 +1,6 @@
 package com.xitricon.questionnaireservice.model;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.Id;
@@ -32,9 +31,8 @@ public class Questionnaire extends Auditable<String> {
 
 	@JsonIgnore
 	public QuestionnaireOutputDTO viewAsDTO() {
-		return new QuestionnaireOutputDTO(this.id, this.tenantId, this.title, this.createdAt,
-				this.modifiedAt, this.createdBy, this.modifiedBy,
-				this.pages.stream().map(QuestionnairePage::viewAsDTO).collect(Collectors.toList()));
+		return new QuestionnaireOutputDTO(this.id, this.tenantId, this.title, this.createdAt, this.modifiedAt,
+				this.createdBy, this.modifiedBy, this.pages.stream().map(QuestionnairePage::viewAsDTO).toList());
 	}
 
 }

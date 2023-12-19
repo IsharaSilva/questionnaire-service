@@ -3,7 +3,6 @@ package com.xitricon.questionnaireservice.model;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
 
@@ -31,8 +30,7 @@ public class QuestionnairePage {
 	public QuestionnairePageOutputDTO viewAsDTO() {
 		return new QuestionnairePageOutputDTO(this.id.toString(), this.index, this.title,
 
-				(Objects.nonNull(questions)
-						? this.questions.stream().map(Question::viewAsDTO).collect(Collectors.toList())
+				(Objects.nonNull(questions) ? this.questions.stream().map(Question::viewAsDTO).toList()
 						: Collections.emptyList())
 
 		);

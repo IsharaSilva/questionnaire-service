@@ -23,7 +23,7 @@ import io.restassured.http.ContentType;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureDataMongo
-public class QuestionnaireITest {
+class QuestionnaireITest {
 	private static final String QUESTIONNAIRE_RESOURCE = "/api/questionnaires/{id}";
 
 	@Autowired
@@ -44,7 +44,7 @@ public class QuestionnaireITest {
 	}
 
 	@Test
-	public void testGetQuestionnaireById() {
+	void testGetQuestionnaireById() {
 
 		Questionnaire savedQuestionnaire = questionnaireRepository.findAll().get(0);
 
@@ -337,7 +337,7 @@ public class QuestionnaireITest {
 	}
 
 	@Test
-	public void testGetQuestionnaireByNonExistingId() {
+	void testGetQuestionnaireByNonExistingId() {
 
 		RestAssured.given().contentType(ContentType.JSON).queryParam("tenantId", "test").pathParam("id", "test")
 				.get(QUESTIONNAIRE_RESOURCE).then().statusCode(HttpStatus.SC_NOT_FOUND);

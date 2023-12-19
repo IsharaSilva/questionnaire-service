@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 
 import com.xitricon.questionnaireservice.util.CommonConstants;
 
-public class CommonConstantsTest {
+class CommonConstantsTest {
 	@Test
-	public void testPrivateConstructorInvocation() throws Exception {
+	void testPrivateConstructorInvocation() throws Exception {
 		final Constructor<CommonConstants> constructor = CommonConstants.class.getDeclaredConstructor();
 
 		// check that all constructors are 'private':

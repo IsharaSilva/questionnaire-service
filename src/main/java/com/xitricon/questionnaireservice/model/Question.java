@@ -1,10 +1,9 @@
 package com.xitricon.questionnaireservice.model;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Collections;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Objects;
 
 import org.bson.types.ObjectId;
 
@@ -48,7 +47,7 @@ public class Question {
 		return new QuestionOutputDTO(this.id.toString(), this.tenantId, this.index, this.label, this.type, this.group,
 
 				(Objects.nonNull(this.validations)
-						? this.validations.stream().map(QuestionValidation::viewAsDTO).collect(Collectors.toList())
+						? this.validations.stream().map(QuestionValidation::viewAsDTO).toList()
 						: Collections.emptyList()),
 
 				this.editable, this.optionsSource, subQuestionDTOs);
