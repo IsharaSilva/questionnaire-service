@@ -237,7 +237,7 @@
             "group": "",
             "validations": [
               {
-                "required": false
+                "required": true
               }
             ],
             "editable": true,
@@ -415,7 +415,7 @@
             "group": "",
             "validations": [
               {
-                "required": false
+                "required": true
               }
             ],
             "editable": true,
