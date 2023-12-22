@@ -16,7 +16,6 @@ phases:
       - aws --version
       - aws eks update-kubeconfig --region us-east-1 --name nv-non-prod-cluster  #--role-arn 'arn:aws:iam::411194283529:role/codebuild-arm-role'
 #      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - COMMIT_HASH=1.0.0
   build:
     commands:
       - echo Build started on `date`
